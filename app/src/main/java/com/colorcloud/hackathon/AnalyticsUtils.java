@@ -62,7 +62,7 @@ public class AnalyticsUtils {
         if (context == null) {
             return sEmptyAnalyticsUtils;
         }
-        
+
         if (sInstance == null) {
             sInstance = new AnalyticsUtils(context);
         }
@@ -114,12 +114,12 @@ public class AnalyticsUtils {
     }
 
     /**
-     * @param category   "Media Player",  // Category
-     * @param action     "Click",  // Action
-     * @param label      "Play", // Label
-     * @param value 	  0       // Value, cumulative
+     * @param category "Media Player",  // Category
+     * @param action   "Click",  // Action
+     * @param label    "Play", // Label
+     * @param value    0       // Value, cumulative
      */
-    public void trackEvent(final String category, final String action, final String label,final int value) {
+    public void trackEvent(final String category, final String action, final String label, final int value) {
         // We wrap the call in an AsyncTask since the Google Analytics library
         // writes to disk
         // on its calling thread.
