@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/kyungseopahn/Dev/workspace/udacityHackathon/app/libs/libGoogleAnalytics.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="8d0254fe638021ff2ae4fe5bd53c2937006fdab5">
+        <dex dex="/Users/kyungseopahn/Dev/workspace/udacityHackathon/app/build/intermediates/pre-dexed/debug/libGoogleAnalytics-af01d2da393866c726874c82c02600e69d22103d.jar" />
+    </item>
+
+</items>
