@@ -63,6 +63,7 @@ public class AnalyticsUtils {
             return sEmptyAnalyticsUtils;
         }
 
+
         if (sInstance == null) {
             sInstance = new AnalyticsUtils(context);
         }
