@@ -1,14 +1,20 @@
-package com.udacity.hackathon;
+package com.udacity.hackathon.model;
 
-import static com.udacity.hackathon.Constants.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.udacity.hackathon.WiFiDirectApp;
+import com.udacity.hackathon.util.JSONUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.udacity.hackathon.util.Config.MSG_CONTENT;
+import static com.udacity.hackathon.util.Config.MSG_SENDER;
+import static com.udacity.hackathon.util.Config.MSG_TIME;
 
 
 public class MessageRow implements Parcelable {

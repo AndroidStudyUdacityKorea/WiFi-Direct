@@ -22,6 +22,11 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.udacity.hackathon.handler.WorkHandler;
+import com.udacity.hackathon.model.MessageRow;
+import com.udacity.hackathon.util.Config;
+import com.udacity.hackathon.util.PrefUtils;
+
 import java.nio.channels.SocketChannel;
 
 public class ConnectionService extends Service implements ChannelListener, PeerListListener, ConnectionInfoListener {
@@ -107,7 +112,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
                 // Wifi Direct mode is enabled
                 mApp.mP2pChannel = mApp.mP2pMan.initialize(this, mWorkHandler.getLooper(), null);
-                AppPreferences.setStringToPref(mApp, AppPreferences.PREF_NAME, AppPreferences.P2P_ENABLED, "1");
+                PrefUtils.setStringToPref(mApp, PrefUtils.PREF_NAME, PrefUtils.P2P_ENABLED, "1");
                 WiFiDirectApp.PTPLog.d(TAG, "processIntent : WIFI_P2P_STATE_CHANGED_ACTION : enabled, re-init p2p channel to framework ");
             } else {
                 mApp.mThisDevice = null;    // reset this device status
@@ -118,7 +123,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
                     mApp.mHomeActivity.updateThisDevice(null);
                     mApp.mHomeActivity.resetData();
                 }
-                AppPreferences.setStringToPref(mApp, AppPreferences.PREF_NAME, AppPreferences.P2P_ENABLED, "0");
+                PrefUtils.setStringToPref(mApp, PrefUtils.PREF_NAME, PrefUtils.P2P_ENABLED, "0");
             }
 
         } else if (WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION.equals(action)) {
@@ -271,45 +276,45 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     private void processMessage(android.os.Message msg) {
 
         switch (msg.what) {
-            case Constants.MSG_NULL:
+            case Config.MSG_NULL:
                 break;
-            case Constants.MSG_REGISTER_ACTIVITY:
+            case Config.MSG_REGISTER_ACTIVITY:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: onActivityRegister to chat fragment...");
                 onActivityRegister((MainActivity) msg.obj, msg.arg1);
                 break;
-            case Constants.MSG_STARTSERVER:
+            case Config.MSG_STARTSERVER:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: startServerSelector...");
                 if (mConnMan.startServerSelector() >= 0) {
                     enableStartChatActivity();
                 }
                 break;
-            case Constants.MSG_STARTCLIENT:
+            case Config.MSG_STARTCLIENT:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: startClientSelector...");
                 if (mConnMan.startClientSelector((String) msg.obj) >= 0) {
                     enableStartChatActivity();
                 }
                 break;
-            case Constants.MSG_NEW_CLIENT:
+            case Config.MSG_NEW_CLIENT:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onNewClient...");
                 mConnMan.onNewClient((SocketChannel) msg.obj);
                 break;
-            case Constants.MSG_FINISH_CONNECT:
+            case Config.MSG_FINISH_CONNECT:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onFinishConnect...");
                 mConnMan.onFinishConnect((SocketChannel) msg.obj);
                 break;
-            case Constants.MSG_PULLIN_DATA:
+            case Config.MSG_PULLIN_DATA:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onPullIndata ...");
                 onPullInData((SocketChannel) msg.obj, msg.getData());
                 break;
-            case Constants.MSG_PUSHOUT_DATA:
+            case Config.MSG_PUSHOUT_DATA:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: onPushOutData...");
                 onPushOutData((String) msg.obj);
                 break;
-            case Constants.MSG_SELECT_ERROR:
+            case Config.MSG_SELECT_ERROR:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: onSelectorError...");
                 mConnMan.onSelectorError();
                 break;
-            case Constants.MSG_BROKEN_CONN:
+            case Config.MSG_BROKEN_CONN:
                 WiFiDirectApp.PTPLog.d(TAG, "processMessage: onBrokenConn...");
                 mConnMan.onBrokenConn((SocketChannel) msg.obj);
                 break;

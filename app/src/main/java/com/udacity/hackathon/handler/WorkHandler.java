@@ -8,7 +8,7 @@
  * ------------- ---------- ----------------- ------------------------------
  * e51141        2010/08/27 IKCTXTAW-19		   Initial version
  */
-package com.udacity.hackathon;
+package com.udacity.hackathon.handler;
 
 import android.os.Handler;
 import android.os.HandlerThread;

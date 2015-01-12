@@ -37,6 +37,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udacity.hackathon.service.FileTransferService;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

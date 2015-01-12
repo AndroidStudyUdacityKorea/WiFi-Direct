@@ -1,6 +1,6 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
 
-package com.udacity.hackathon;
+package com.udacity.hackathon.service;
 
 import android.app.IntentService;
 import android.content.ContentResolver;
@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+
+import com.udacity.hackathon.DeviceDetailFragment;
+import com.udacity.hackathon.WiFiDirectActivity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.udacity.hackathon.model.MessageRow;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.udacity.hackathon.Constants.MSG_PUSHOUT_DATA;
-import static com.udacity.hackathon.Constants.MSG_REGISTER_ACTIVITY;
+import static com.udacity.hackathon.util.Config.MSG_PUSHOUT_DATA;
+import static com.udacity.hackathon.util.Config.MSG_REGISTER_ACTIVITY;
 
 public class MainActivity extends Activity {
 	

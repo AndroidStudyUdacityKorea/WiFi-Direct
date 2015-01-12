@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.udacity.hackathon"
-    android:versionCode="1" android:versionName="1.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.udacity.hackathon"
+    android:versionCode="1"
+    android:versionName="1.0">
 
     <uses-sdk android:minSdkVersion="14" />
+
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -10,10 +13,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Market filtering --> 
-    <uses-feature android:name="android.hardware.wifi.direct" android:required="true"/>
+    <!-- Market filtering -->
+    <uses-feature
+        android:name="android.hardware.wifi.direct"
+        android:required="true" />
 
     <application
         android:name="com.udacity.hackathon.WiFiDirectApp"
@@ -23,17 +28,19 @@
 
         <activity
             android:name="com.udacity.hackathon.WiFiDirectActivity"
-            android:label="@string/app_name" 
+            android:label="@string/app_name"
             android:launchMode="singleTask">
             <intent-filter>
-                <action
-                    android:name="android.intent.action.MAIN" />
-                <category
-                    android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.udacity.hackathon.WiFiDirectBroadcastReceiver">
+        <activity android:name=".MainActivity"/>
+
+
+        <!-- Broadcast Receiver -->
+        <receiver android:name=".receiver.WiFiDirectBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.wifi.p2p.STATE_CHANGED" />
                 <action android:name="android.net.wifi.p2p.PEERS_CHANGED" />
@@ -42,12 +49,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.udacity.hackathon.MainActivity">
-        </activity>
-
         <!-- Used for transferring files  after a successful connection -->
-        <service android:enabled="true" android:name="com.udacity.hackathon.FileTransferService" />
+        <service
+            android:name=".service.FileTransferService"
+            android:enabled="true" />
 
-        <service android:enabled="true" android:name="com.udacity.hackathon.ConnectionService" />
+        <service
+            android:name="com.udacity.hackathon.ConnectionService"
+            android:enabled="true" />
+
     </application>
 </manifest>

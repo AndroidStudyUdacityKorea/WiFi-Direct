@@ -9,9 +9,11 @@
  * e51141        2011/02/27 IKCTXTAW-201		   Initial version
  */
 
-package com.udacity.hackathon;
+package com.udacity.hackathon.util;
 
-import static com.udacity.hackathon.Constants.*;
+import com.udacity.hackathon.WiFiDirectApp;
+
+import static com.udacity.hackathon.util.Config.*;
 
 import java.util.HashSet;
 import java.util.Set;

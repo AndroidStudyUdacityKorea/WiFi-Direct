@@ -1,13 +1,5 @@
 package com.udacity.hackathon;
 
-import static com.udacity.hackathon.Constants.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.Application;
 import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -16,6 +8,19 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.os.Message;
 import android.util.Log;
+
+import com.udacity.hackathon.model.MessageRow;
+import com.udacity.hackathon.util.JSONUtils;
+import com.udacity.hackathon.util.PrefUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.udacity.hackathon.util.Config.MSG_STARTCLIENT;
+import static com.udacity.hackathon.util.Config.MSG_STARTSERVER;
 
 public class WiFiDirectApp extends Application {
 
@@ -46,7 +51,7 @@ public class WiFiDirectApp extends Application {
 	 * my bcast listener always gets enable/disable intent and persist to shared pref
 	 */
 	public boolean isP2pEnabled() {
-		String state = AppPreferences.getStringFromPref(this, AppPreferences.PREF_NAME, AppPreferences.P2P_ENABLED);
+		String state = PrefUtils.getStringFromPref(this, PrefUtils.PREF_NAME, PrefUtils.P2P_ENABLED);
 		if ( state != null && "1".equals(state.trim())){
 			return true;
 		}

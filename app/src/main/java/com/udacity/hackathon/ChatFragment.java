@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.udacity.hackathon.model.MessageRow;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
