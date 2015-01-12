@@ -1,4 +1,4 @@
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
 public final class Constants {
 	

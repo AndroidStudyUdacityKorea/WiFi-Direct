@@ -1,10 +1,4 @@
-package com.colorcloud.hackathon;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+package com.udacity.hackathon;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -20,7 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * chat fragment attached to main activity.
@@ -92,14 +90,14 @@ public class ChatFragment extends ListFragment {
 				MessageRow row = new MessageRow(mApp.mDeviceName, inputMsg, null);
 				appendChatMessage(row);
 				String jsonMsg = mApp.shiftInsertMessage(row);
-				PTPLog.d(TAG, "sendButton clicked: sendOut data : " + jsonMsg);
+				WiFiDirectApp.PTPLog.d(TAG, "sendButton clicked: sendOut data : " + jsonMsg);
 				mActivity.pushOutMessage(jsonMsg);
 			}
         });
         
         String groupOwnerAddr = getArguments().getString("groupOwnerAddr");
         String msg = getArguments().getString("initMsg");
-        PTPLog.d(TAG, "onCreateView : fragment view created: msg :" + msg);
+        WiFiDirectApp.PTPLog.d(TAG, "onCreateView : fragment view created: msg :" + msg);
         
     	if( savedInstanceState != null ){
             mMessageList = savedInstanceState.getParcelableArrayList("MSG_LIST");
@@ -117,7 +115,7 @@ public class ChatFragment extends ListFragment {
         
         setListAdapter(mAdapter);  // list fragment data adapter 
         
-        PTPLog.d(TAG, "onCreate chat msg fragment: devicename : " + mApp.mDeviceName + " : " + getArguments().getString("initMsg"));
+        WiFiDirectApp.PTPLog.d(TAG, "onCreate chat msg fragment: devicename : " + mApp.mDeviceName + " : " + getArguments().getString("initMsg"));
         return contentView;
     }
     
@@ -154,11 +152,11 @@ public class ChatFragment extends ListFragment {
     	try{
     		for(int i=0;i<jsonarray.length();i++){
     			MessageRow row = MessageRow.parseMesssageRow(jsonarray.getJSONObject(i));
-    			PTPLog.d(TAG, "jsonArrayToList: row : " + row.mMsg);
+    			WiFiDirectApp.PTPLog.d(TAG, "jsonArrayToList: row : " + row.mMsg);
     			list.add(row);
     		}
     	}catch(JSONException e){
-    		PTPLog.e(TAG, "jsonArrayToList: " + e.toString());
+    		WiFiDirectApp.PTPLog.e(TAG, "jsonArrayToList: " + e.toString());
     	}
     }
     

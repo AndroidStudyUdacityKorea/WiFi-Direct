@@ -1,6 +1,10 @@
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
-import static com.colorcloud.hackathon.Constants.*;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -10,11 +14,11 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import static com.udacity.hackathon.Constants.MSG_BROKEN_CONN;
+import static com.udacity.hackathon.Constants.MSG_FINISH_CONNECT;
+import static com.udacity.hackathon.Constants.MSG_NEW_CLIENT;
+import static com.udacity.hackathon.Constants.MSG_PULLIN_DATA;
+import static com.udacity.hackathon.Constants.MSG_SELECT_ERROR;
 
 /**
  * AsyncTask is only for UI thread to submit work(impl inside doInbackground) to executor.

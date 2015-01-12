@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorcloud.hackathon;
-
-import static com.colorcloud.hackathon.Constants.*;
+package com.udacity.hackathon;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,8 +35,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.colorcloud.hackathon.DeviceListFragment.DeviceActionListener;
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
+import com.udacity.hackathon.DeviceListFragment.DeviceActionListener;
+
+import static com.udacity.hackathon.Constants.ACT_CREATE;
+import static com.udacity.hackathon.Constants.CAT_LOCATION;
+import static com.udacity.hackathon.Constants.LAB_HOME;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -69,7 +70,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
         Intent serviceIntent = new Intent(this, ConnectionService.class);
         startService(serviceIntent);  // start the connection service
         
-        PTPLog.d(TAG, "onCreate : home activity launched, start service anyway.");
+        WiFiDirectApp.PTPLog.d(TAG, "onCreate : home activity launched, start service anyway.");
     }
 
     /** 
@@ -80,12 +81,12 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
         super.onResume();
         mHasFocus = true;
         if( mApp.mThisDevice != null ){
-        	PTPLog.d(TAG, "onResume : redraw this device details");
+        	WiFiDirectApp.PTPLog.d(TAG, "onResume : redraw this device details");
         	updateThisDevice(mApp.mThisDevice);
         	
         	// if p2p connetion info available, and my status is connected, enabled start chatting !
             if( mApp.mP2pInfo != null && mApp.mThisDevice.status == WifiP2pDevice.CONNECTED){
-            	PTPLog.d(TAG, "onResume : redraw detail fragment");
+            	WiFiDirectApp.PTPLog.d(TAG, "onResume : redraw detail fragment");
             	onConnectionInfoAvailable(mApp.mP2pInfo);
             } else {
             	// XXX stop client, if any.
@@ -108,7 +109,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     public void onDestroy() {
     	super.onDestroy();
     	mApp.mHomeActivity = null;
-    	PTPLog.d(TAG, "onDestroy: reset app home activity.");
+    	WiFiDirectApp.PTPLog.d(TAG, "onDestroy: reset app home activity.");
     }
 
     /**
@@ -154,7 +155,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     	    	
     	    	for(WifiP2pDevice d : peerList.getDeviceList()){
     	    		if( d.status == WifiP2pDevice.FAILED ){
-    	    			PTPLog.d(TAG, "onPeersAvailable: Peer status is failed " + d.deviceName );
+    	    			WiFiDirectApp.PTPLog.d(TAG, "onPeersAvailable: Peer status is failed " + d.deviceName);
     	    	    	fragmentDetails.resetViews();
     	    		}
     	    	}
@@ -213,18 +214,18 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
                 final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager().findFragmentById(R.id.frag_list);
                 fragment.onInitiateDiscovery();  
                 
-                PTPLog.d(TAG, "onOptionsItemSelected : start discoverying ");
+                WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : start discoverying ");
                 AnalyticsUtils.getInstance(mApp).trackEvent(CAT_LOCATION, ACT_CREATE, LAB_HOME, 2);
                 mApp.mP2pMan.discoverPeers(mApp.mP2pChannel, new WifiP2pManager.ActionListener() {
                     @Override
                     public void onSuccess() {
                         Toast.makeText(WiFiDirectActivity.this, "Discovery Initiated", Toast.LENGTH_SHORT).show();
-                        PTPLog.d(TAG, "onOptionsItemSelected : discovery succeed... " );
+                        WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : discovery succeed... ");
                     }
 
                     @Override
                     public void onFailure(int reasonCode) {
-                    	PTPLog.d(TAG, "onOptionsItemSelected : discovery failed !!! " + reasonCode);
+                    	WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : discovery failed !!! " + reasonCode);
                     	fragment.clearPeers();
                         Toast.makeText(WiFiDirectActivity.this, "Discovery Failed, try again... ", Toast.LENGTH_SHORT).show();
                     }
@@ -232,18 +233,18 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
                 return true;
                 
             case R.id.disconnect:
-            	PTPLog.d(TAG, "onOptionsItemSelected : disconnect all connections and stop server ");
+            	WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : disconnect all connections and stop server ");
             	ConnectionService.getInstance().mConnMan.closeClient();
             	ConnectionService.getInstance().mConnMan.closeServer();
             	return true;
             	
             case R.id.about:
-            	PTPLog.d(TAG, "onOptionsItemSelected : about ");
+            	WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : about ");
             	Toast.makeText(this, "Free China using Peer-Peer", Toast.LENGTH_LONG).show();
             	return true;
             	
             case R.id.help:
-            	PTPLog.d(TAG, "onOptionsItemSelected : help ");
+            	WiFiDirectApp.PTPLog.d(TAG, "onOptionsItemSelected : help ");
             	Toast.makeText(this, "learn to use Peer-Peer to fight against censorship", Toast.LENGTH_LONG).show();
             	return true;
             	
@@ -264,7 +265,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
      * user clicked connect button after discover peers.
      */
     public void connect(WifiP2pConfig config) {
-    	PTPLog.d(TAG, "connect : connect to server : " + config.deviceAddress);
+    	WiFiDirectApp.PTPLog.d(TAG, "connect : connect to server : " + config.deviceAddress);
     	// perform p2p connect upon users click the connect button. after connection, manager request connection info.
         mApp.mP2pMan.connect(mApp.mP2pChannel, config, new ActionListener() {
             @Override
@@ -286,17 +287,17 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     public void disconnect() {
         final DeviceDetailFragment fragment = (DeviceDetailFragment) getFragmentManager().findFragmentById(R.id.frag_detail);
         fragment.resetViews();
-        PTPLog.d(TAG, "disconnect : removeGroup " );
+        WiFiDirectApp.PTPLog.d(TAG, "disconnect : removeGroup ");
         mApp.mP2pMan.removeGroup(mApp.mP2pChannel, new ActionListener() {
             @Override
             public void onFailure(int reasonCode) {
-                PTPLog.d(TAG, "Disconnect failed. Reason : 1=error, 2=busy; " + reasonCode);
+                WiFiDirectApp.PTPLog.d(TAG, "Disconnect failed. Reason : 1=error, 2=busy; " + reasonCode);
                 Toast.makeText(WiFiDirectActivity.this, "disconnect failed.." + reasonCode, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess() {
-            	PTPLog.d(TAG, "Disconnect succeed. ");
+            	WiFiDirectApp.PTPLog.d(TAG, "Disconnect succeed. ");
                 fragment.getView().setVisibility(View.GONE);
             }
         });
@@ -342,12 +343,12 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
                     @Override
                     public void onSuccess() {
                         Toast.makeText(WiFiDirectActivity.this, "Aborting connection", Toast.LENGTH_SHORT).show();
-                        PTPLog.d(TAG, "cancelConnect : success canceled...");
+                        WiFiDirectApp.PTPLog.d(TAG, "cancelConnect : success canceled...");
                     }
                     @Override
                     public void onFailure(int reasonCode) {
                         Toast.makeText(WiFiDirectActivity.this, "cancelConnect: request failed. Please try again.. ", Toast.LENGTH_SHORT).show();
-                        PTPLog.d(TAG, "cancelConnect : cancel connect request failed..." + reasonCode);
+                        WiFiDirectApp.PTPLog.d(TAG, "cancelConnect : cancel connect request failed..." + reasonCode);
                     }
                 });
             }
@@ -363,7 +364,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     		return;
     	}
     	
-    	PTPLog.d(TAG, "startChatActivity : start chat activity fragment..." + initMsg);
+    	WiFiDirectApp.PTPLog.d(TAG, "startChatActivity : start chat activity fragment..." + initMsg);
     	runOnUiThread(new Runnable() {
     		@Override public void run() {
     			Intent i = mApp.getLauchActivityIntent(MainActivity.class, initMsg);

@@ -1,9 +1,7 @@
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -124,14 +122,14 @@ public class ConnectionManager {
 		    sChannel.register(mClientSelector, SelectionKey.OP_READ );
 		    mApp.setMyAddr(mClientAddr);
 		    mApp.clearMessages();
-		    PTPLog.d(TAG, "startClientSelector : started: " + mClientSocketChannel.socket().getLocalAddress().getHostAddress());
+		    WiFiDirectApp.PTPLog.d(TAG, "startClientSelector : started: " + mClientSocketChannel.socket().getLocalAddress().getHostAddress());
 		    
 			// start selector monitoring, blocking
 			new SelectorAsyncTask(mService, mClientSelector).execute();
 			return 0;
 
 		} catch(Exception e) {
-			PTPLog.e(TAG, "startClientSelector : exception: " + e.toString());
+			WiFiDirectApp.PTPLog.e(TAG, "startClientSelector : exception: " + e.toString());
 			mClientSelector = null;
 			mClientSocketChannel = null;
 			mApp.setMyAddr(null);
@@ -234,7 +232,7 @@ public class ConnectionManager {
 			}
 			schannel.close();
 		}catch(Exception e){
-			PTPLog.e(TAG, "onBrokenConn: close channel: " + e.toString());
+			WiFiDirectApp.PTPLog.e(TAG, "onBrokenConn: close channel: " + e.toString());
 		}
 	}
 	

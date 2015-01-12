@@ -1,6 +1,6 @@
 // Copyright 2011 Google Inc. All Rights Reserved.
 
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
 import android.app.IntentService;
 import android.content.ContentResolver;

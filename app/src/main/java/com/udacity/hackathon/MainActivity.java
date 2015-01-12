@@ -1,9 +1,4 @@
-package com.colorcloud.hackathon;
-
-import static com.colorcloud.hackathon.Constants.*;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.udacity.hackathon;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -17,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.udacity.hackathon.Constants.MSG_PUSHOUT_DATA;
+import static com.udacity.hackathon.Constants.MSG_REGISTER_ACTIVITY;
 
 public class MainActivity extends Activity {
 	

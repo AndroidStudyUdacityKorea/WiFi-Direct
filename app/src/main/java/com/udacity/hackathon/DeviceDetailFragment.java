@@ -14,15 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorcloud.hackathon;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+package com.udacity.hackathon;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -45,8 +37,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.colorcloud.hackathon.DeviceListFragment.DeviceActionListener;
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * A fragment that manages a particular peer and allows interaction with device
@@ -97,11 +94,11 @@ public class DeviceDetailFragment extends Fragment {
                         new DialogInterface.OnCancelListener() {
                             @Override
                             public void onCancel(DialogInterface dialog) {
-                                ((DeviceActionListener) getActivity()).cancelDisconnect();
+                                ((DeviceListFragment.DeviceActionListener) getActivity()).cancelDisconnect();
                             }
                         });
                 // perform p2p connect upon user click the connect button, connect available handle when connection done.
-                ((DeviceActionListener) getActivity()).connect(config);
+                ((DeviceListFragment.DeviceActionListener) getActivity()).connect(config);
             }
         });
 
@@ -109,7 +106,7 @@ public class DeviceDetailFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((DeviceActionListener) getActivity()).disconnect();
+                        ((DeviceListFragment.DeviceActionListener) getActivity()).disconnect();
                     }
                 });
 
@@ -177,12 +174,12 @@ public class DeviceDetailFragment extends Fragment {
         
         if( ! mApp.mIsServer && mApp.mMyAddr == null ){
         	Toast.makeText(mApp, "Connect to Server Failed, Please try again...", Toast.LENGTH_LONG).show();
-        	PTPLog.d(TAG,  "onConnectionInfoAvailable : connect to serve failed...try again ! ");
+        	WiFiDirectApp.PTPLog.d(TAG, "onConnectionInfoAvailable : connect to serve failed...try again ! ");
         }else{
         	// hide the connect button and enable start chat button
         	mContentView.findViewById(R.id.btn_connect).setVisibility(View.GONE);
         	mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
-        	PTPLog.d(TAG, "onConnectionInfoAvailable: socket connection established, show start chat button ! ");
+        	WiFiDirectApp.PTPLog.d(TAG, "onConnectionInfoAvailable: socket connection established, show start chat button ! ");
         }
     }
 
@@ -204,7 +201,7 @@ public class DeviceDetailFragment extends Fragment {
      * Clears the UI fields after a disconnect or direct mode disable operation.
      */
     public void resetViews() {
-    	PTPLog.d(TAG, "resetViews: detail frag dismiss progress dialog and clear views");
+    	WiFiDirectApp.PTPLog.d(TAG, "resetViews: detail frag dismiss progress dialog and clear views");
     	if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

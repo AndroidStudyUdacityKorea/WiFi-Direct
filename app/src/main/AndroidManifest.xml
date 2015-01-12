@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.colorcloud.hackathon"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.udacity.hackathon"
     android:versionCode="1" android:versionName="1.0">
 
     <uses-sdk android:minSdkVersion="14" />
@@ -16,13 +16,13 @@
     <uses-feature android:name="android.hardware.wifi.direct" android:required="true"/>
 
     <application
-        android:name="com.colorcloud.hackathon.WiFiDirectApp"
+        android:name="com.udacity.hackathon.WiFiDirectApp"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo">
 
         <activity
-            android:name="com.colorcloud.hackathon.WiFiDirectActivity"
+            android:name="com.udacity.hackathon.WiFiDirectActivity"
             android:label="@string/app_name" 
             android:launchMode="singleTask">
             <intent-filter>
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.colorcloud.hackathon.WiFiDirectBroadcastReceiver">
+        <receiver android:name="com.udacity.hackathon.WiFiDirectBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.wifi.p2p.STATE_CHANGED" />
                 <action android:name="android.net.wifi.p2p.PEERS_CHANGED" />
@@ -42,12 +42,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name="com.colorcloud.hackathon.MainActivity">
+        <activity android:name="com.udacity.hackathon.MainActivity">
         </activity>
 
         <!-- Used for transferring files  after a successful connection -->
-        <service android:enabled="true" android:name="com.colorcloud.hackathon.FileTransferService" />
+        <service android:enabled="true" android:name="com.udacity.hackathon.FileTransferService" />
 
-        <service android:enabled="true" android:name="com.colorcloud.hackathon.ConnectionService" />
+        <service android:enabled="true" android:name="com.udacity.hackathon.ConnectionService" />
     </application>
 </manifest>

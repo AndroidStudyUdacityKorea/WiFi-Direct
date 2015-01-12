@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package com.colorcloud.hackathon;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.udacity.hackathon;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
@@ -34,7 +31,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A ListFragment that displays available peers on discovery and requests the
@@ -119,7 +117,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                 if (bottom != null) {
                     bottom.setText(ConnectionService.getDeviceStatus(device.status));
                 }
-                PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
+                WiFiDirectApp.PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
             }
             return v;
         }
@@ -134,7 +132,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
     	TextView nameview = (TextView) mContentView.findViewById(R.id.my_name);
     	TextView statusview = (TextView) mContentView.findViewById(R.id.my_status);
     	if ( device != null) {
-	    	PTPLog.d(TAG, "updateThisDevice: " + device.deviceName + " = " + ConnectionService.getDeviceStatus(device.status));
+	    	WiFiDirectApp.PTPLog.d(TAG, "updateThisDevice: " + device.deviceName + " = " + ConnectionService.getDeviceStatus(device.status));
 	    	this.device = device;
 	        nameview.setText(device.deviceName);
 	        statusview.setText(ConnectionService.getDeviceStatus(device.status));
@@ -156,7 +154,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         peers.addAll(peerList);
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
         if (peers.size() == 0) {
-            PTPLog.d(WiFiDirectActivity.TAG, "onPeersAvailable : No devices found");
+            WiFiDirectApp.PTPLog.d(WiFiDirectActivity.TAG, "onPeersAvailable : No devices found");
             return;
         }
     }

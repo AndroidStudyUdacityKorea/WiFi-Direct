@@ -16,7 +16,7 @@
  * Modified for SeriesGuide - Uwe Trottmann 2011
  */
 
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -53,7 +53,6 @@ public class AnalyticsUtils {
     private static boolean ANALYTICS_ENABLED = true;
 
     private static AnalyticsUtils sInstance;
-
     /**
      * Returns the global {@link AnalyticsUtils} singleton object, creating one
      * if necessary.

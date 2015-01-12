@@ -1,6 +1,6 @@
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
-import static com.colorcloud.hackathon.Constants.*;
+import static com.udacity.hackathon.Constants.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.colorcloud.hackathon;
+package com.udacity.hackathon;
 
-import static com.colorcloud.hackathon.Constants.*;
+import static com.udacity.hackathon.Constants.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -9,8 +9,6 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.colorcloud.hackathon.WiFiDirectApp.PTPLog;
 
 
 public class MessageRow implements Parcelable {
@@ -55,7 +53,7 @@ public class MessageRow implements Parcelable {
 			jsonobj.put(MSG_TIME, msgrow.mTime);
 			jsonobj.put(MSG_CONTENT, msgrow.mMsg);
 		}catch(JSONException e){
-			PTPLog.e(TAG, "getAsJSONObject : " + e.toString());
+			WiFiDirectApp.PTPLog.e(TAG, "getAsJSONObject : " + e.toString());
 		}
 		return jsonobj;
 	}
@@ -69,7 +67,7 @@ public class MessageRow implements Parcelable {
 			try{
 				row = new MessageRow(jsonobj.getString(MSG_SENDER), jsonobj.getString(MSG_CONTENT), jsonobj.getString(MSG_TIME)); 
 			}catch(JSONException e){
-				PTPLog.e(TAG, "parseMessageRow: " + e.toString());
+				WiFiDirectApp.PTPLog.e(TAG, "parseMessageRow: " + e.toString());
 			}
 		}
 		return row;
@@ -80,7 +78,7 @@ public class MessageRow implements Parcelable {
 	 */
 	public static MessageRow parseMessageRow(String jsonMsg){
 		JSONObject jsonobj = JSONUtils.getJsonObject(jsonMsg);
-		PTPLog.d(TAG, "parseMessageRow : " + jsonobj.toString());
+		WiFiDirectApp.PTPLog.d(TAG, "parseMessageRow : " + jsonobj.toString());
 		return parseMesssageRow(jsonobj);
 	}
 
