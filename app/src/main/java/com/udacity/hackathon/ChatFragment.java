@@ -42,7 +42,8 @@ public class ChatFragment extends ListFragment {
     public static ChatFragment newInstance(Activity activity, String groupOwnerAddr, String msg) {
     	ChatFragment f = new ChatFragment();
     	mActivity = (MainActivity)activity;
-    	
+
+
         Bundle args = new Bundle();
         args.putString("groupOwnerAddr", groupOwnerAddr);
         args.putString("initMsg", msg);
