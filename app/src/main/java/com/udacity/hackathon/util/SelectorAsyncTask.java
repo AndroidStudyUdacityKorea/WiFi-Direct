@@ -1,10 +1,12 @@
-package com.udacity.hackathon;
+package com.udacity.hackathon.util;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import com.udacity.hackathon.ConnectionService;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
