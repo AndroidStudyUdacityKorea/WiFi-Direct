@@ -23,5 +23,4 @@ android {
 }
 
 dependencies {
-    compile files('libs/libGoogleAnalytics.jar')
 }
