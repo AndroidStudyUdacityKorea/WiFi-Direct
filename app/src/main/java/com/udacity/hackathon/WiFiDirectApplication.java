@@ -22,7 +22,7 @@ import java.util.List;
 import static com.udacity.hackathon.util.Config.MSG_STARTCLIENT;
 import static com.udacity.hackathon.util.Config.MSG_STARTSERVER;
 
-public class WiFiDirectApp extends Application {
+public class WiFiDirectApplication extends Application {
 
 	private static final String TAG = "PTP_APP";
 	

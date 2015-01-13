@@ -21,23 +21,16 @@
         android:required="true" />
 
     <application
-        android:name="com.udacity.hackathon.WiFiDirectApp"
+        android:name=".WiFiDirectApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo">
-
         <activity
-            android:name="com.udacity.hackathon.WiFiDirectActivity"
+            android:name=".WiFiDirectActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".MainActivity"/>
-
+            android:launchMode="singleTask" />
+        
+        <activity android:name=".MainActivity" />
 
         <!-- Broadcast Receiver -->
         <receiver android:name=".receiver.WiFiDirectBroadcastReceiver">
@@ -53,10 +46,19 @@
         <service
             android:name=".service.FileTransferService"
             android:enabled="true" />
-
         <service
-            android:name="com.udacity.hackathon.ConnectionService"
+            android:name=".ConnectionService"
             android:enabled="true" />
 
+        <activity
+            android:name=".ui.SplashActivity"
+            android:label="@string/title_activity_splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>

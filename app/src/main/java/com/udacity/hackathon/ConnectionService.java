@@ -41,7 +41,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
 
     boolean retryChannel = false;
 
-    WiFiDirectApp mApp;
+    WiFiDirectApplication mApp;
     MainActivity mActivity;    // shall I use weak reference here ?
     ConnectionManager mConnMan;
 
@@ -50,7 +50,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
      */
     private void _initialize() {
         if (_sinstance != null) {
-            WiFiDirectApp.PTPLog.d(TAG, "_initialize, already initialized, do nothing.");
+            WiFiDirectApplication.PTPLog.d(TAG, "_initialize, already initialized, do nothing.");
             return;
         }
 
@@ -58,10 +58,10 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
         mWorkHandler = new WorkHandler(TAG);
         mHandler = new MessageHandler(mWorkHandler.getLooper());
 
-        mApp = (WiFiDirectApp) getApplication();
+        mApp = (WiFiDirectApplication) getApplication();
         mApp.mP2pMan = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mApp.mP2pChannel = mApp.mP2pMan.initialize(this, mWorkHandler.getLooper(), null);
-        WiFiDirectApp.PTPLog.d(TAG, "_initialize, get p2p service and init channel !!!");
+        WiFiDirectApplication.PTPLog.d(TAG, "_initialize, get p2p service and init channel !!!");
 
         mConnMan = new ConnectionManager(this);
     }
@@ -74,7 +74,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     public void onCreate() {
         super.onCreate();
         _initialize();
-        WiFiDirectApp.PTPLog.d(TAG, "onCreate : done");
+        WiFiDirectApplication.PTPLog.d(TAG, "onCreate : done");
     }
 
     @Override
@@ -104,7 +104,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
         }
 
         String action = intent.getAction();
-        WiFiDirectApp.PTPLog.d(TAG, "processIntent: " + intent.toString());
+        WiFiDirectApplication.PTPLog.d(TAG, "processIntent: " + intent.toString());
 
         if (WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION.equals(action)) {  // this devices's wifi direct enabled state.
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
@@ -113,12 +113,12 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
                 // Wifi Direct mode is enabled
                 mApp.mP2pChannel = mApp.mP2pMan.initialize(this, mWorkHandler.getLooper(), null);
                 PrefUtils.setStringToPref(mApp, PrefUtils.PREF_NAME, PrefUtils.P2P_ENABLED, "1");
-                WiFiDirectApp.PTPLog.d(TAG, "processIntent : WIFI_P2P_STATE_CHANGED_ACTION : enabled, re-init p2p channel to framework ");
+                WiFiDirectApplication.PTPLog.d(TAG, "processIntent : WIFI_P2P_STATE_CHANGED_ACTION : enabled, re-init p2p channel to framework ");
             } else {
                 mApp.mThisDevice = null;    // reset this device status
                 mApp.mP2pChannel = null;
                 mApp.mPeers.clear();
-                WiFiDirectApp.PTPLog.d(TAG, "processIntent : WIFI_P2P_STATE_CHANGED_ACTION : disabled, null p2p channel to framework ");
+                WiFiDirectApplication.PTPLog.d(TAG, "processIntent : WIFI_P2P_STATE_CHANGED_ACTION : disabled, null p2p channel to framework ");
                 if (mApp.mHomeActivity != null) {
                     mApp.mHomeActivity.updateThisDevice(null);
                     mApp.mHomeActivity.resetData();
@@ -131,7 +131,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             // request available peers from the wifi p2p manager. This is an
             // asynchronous call and the calling activity is notified with a
             // callback on PeerListListener.onPeersAvailable()
-            WiFiDirectApp.PTPLog.d(TAG, "processIntent: WIFI_P2P_PEERS_CHANGED_ACTION: call requestPeers() to get list of peers");
+            WiFiDirectApplication.PTPLog.d(TAG, "processIntent: WIFI_P2P_PEERS_CHANGED_ACTION: call requestPeers() to get list of peers");
             if (mApp.mP2pMan != null) {
                 mApp.mP2pMan.requestPeers(mApp.mP2pChannel, (PeerListListener) this);
             }
@@ -141,7 +141,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             }
 
             NetworkInfo networkInfo = (NetworkInfo) intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO);
-            WiFiDirectApp.PTPLog.d(TAG, "processIntent: WIFI_P2P_CONNECTION_CHANGED_ACTION : " + networkInfo.getReason() + " : " + networkInfo.toString());
+            WiFiDirectApplication.PTPLog.d(TAG, "processIntent: WIFI_P2P_CONNECTION_CHANGED_ACTION : " + networkInfo.getReason() + " : " + networkInfo.toString());
             if (networkInfo.isConnected()) {
                 Log.d(TAG, "processIntent: WIFI_P2P_CONNECTION_CHANGED_ACTION: p2p connected ");
                 // Connected with the other device, request connection info for group owner IP. Callback inside details fragment.
@@ -160,7 +160,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             // this device details has changed(name, connected, etc)
             mApp.mThisDevice = (WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
             mApp.mDeviceName = mApp.mThisDevice.deviceName;
-            WiFiDirectApp.PTPLog.d(TAG, "processIntent: WIFI_P2P_THIS_DEVICE_CHANGED_ACTION " + mApp.mThisDevice.deviceName);
+            WiFiDirectApplication.PTPLog.d(TAG, "processIntent: WIFI_P2P_THIS_DEVICE_CHANGED_ACTION " + mApp.mThisDevice.deviceName);
             if (mApp.mHomeActivity != null) {
                 mApp.mHomeActivity.updateThisDevice(mApp.mThisDevice);
             }
@@ -173,14 +173,14 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     @Override
     public void onChannelDisconnected() {
         if (!retryChannel) {
-            WiFiDirectApp.PTPLog.d(TAG, "onChannelDisconnected : retry initialize() ");
+            WiFiDirectApplication.PTPLog.d(TAG, "onChannelDisconnected : retry initialize() ");
             mApp.mP2pChannel = mApp.mP2pMan.initialize(this, mWorkHandler.getLooper(), null);
             if (mApp.mHomeActivity != null) {
                 mApp.mHomeActivity.resetData();
             }
             retryChannel = true;
         } else {
-            WiFiDirectApp.PTPLog.d(TAG, "onChannelDisconnected : stop self, ask user to re-enable.");
+            WiFiDirectApplication.PTPLog.d(TAG, "onChannelDisconnected : stop self, ask user to re-enable.");
             if (mApp.mHomeActivity != null) {
                 mApp.mHomeActivity.onChannelDisconnected();
             }
@@ -195,18 +195,18 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     public void onPeersAvailable(WifiP2pDeviceList peerList) {
         mApp.mPeers.clear();
         mApp.mPeers.addAll(peerList.getDeviceList());
-        WiFiDirectApp.PTPLog.d(TAG, "onPeersAvailable : update peer list...");
+        WiFiDirectApplication.PTPLog.d(TAG, "onPeersAvailable : update peer list...");
 
         WifiP2pDevice connectedPeer = mApp.getConnectedPeer();
         if (connectedPeer != null) {
-            WiFiDirectApp.PTPLog.d(TAG, "onPeersAvailable : exist connected peer : " + connectedPeer.deviceName);
+            WiFiDirectApplication.PTPLog.d(TAG, "onPeersAvailable : exist connected peer : " + connectedPeer.deviceName);
         } else {
 
         }
 
         if (mApp.mP2pInfo != null && connectedPeer != null) {
             if (mApp.mP2pInfo.groupFormed && mApp.mP2pInfo.isGroupOwner) {
-                WiFiDirectApp.PTPLog.d(TAG, "onPeersAvailable : device is groupOwner: startSocketServer");
+                WiFiDirectApplication.PTPLog.d(TAG, "onPeersAvailable : device is groupOwner: startSocketServer");
                 mApp.startSocketServer();
             } else if (mApp.mP2pInfo.groupFormed && connectedPeer != null) {
                 // XXX client path goes to connection info available after connection established.
@@ -233,7 +233,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             //PTPLog.d(TAG, "onConnectionInfoAvailable: device is groupOwner: startSocketServer ");
             // mApp.startSocketServer();
         } else if (info.groupFormed) {
-            WiFiDirectApp.PTPLog.d(TAG, "onConnectionInfoAvailable: device is client, connect to group owner: startSocketClient ");
+            WiFiDirectApplication.PTPLog.d(TAG, "onConnectionInfoAvailable: device is client, connect to group owner: startSocketClient ");
             mApp.startSocketClient(info.groupOwnerAddress.getHostAddress());
         }
         mApp.mP2pConnected = true;
@@ -242,7 +242,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
 
     private void enableStartChatActivity() {
         if (mApp.mHomeActivity != null) {
-            WiFiDirectApp.PTPLog.d(TAG, "enableStartChatActivity :  nio channel ready, enable start chat !");
+            WiFiDirectApplication.PTPLog.d(TAG, "enableStartChatActivity :  nio channel ready, enable start chat !");
             mApp.mHomeActivity.onConnectionInfoAvailable(mApp.mP2pInfo);
         }
     }
@@ -279,43 +279,43 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
             case Config.MSG_NULL:
                 break;
             case Config.MSG_REGISTER_ACTIVITY:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: onActivityRegister to chat fragment...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: onActivityRegister to chat fragment...");
                 onActivityRegister((MainActivity) msg.obj, msg.arg1);
                 break;
             case Config.MSG_STARTSERVER:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: startServerSelector...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: startServerSelector...");
                 if (mConnMan.startServerSelector() >= 0) {
                     enableStartChatActivity();
                 }
                 break;
             case Config.MSG_STARTCLIENT:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: startClientSelector...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: startClientSelector...");
                 if (mConnMan.startClientSelector((String) msg.obj) >= 0) {
                     enableStartChatActivity();
                 }
                 break;
             case Config.MSG_NEW_CLIENT:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onNewClient...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage:  onNewClient...");
                 mConnMan.onNewClient((SocketChannel) msg.obj);
                 break;
             case Config.MSG_FINISH_CONNECT:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onFinishConnect...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage:  onFinishConnect...");
                 mConnMan.onFinishConnect((SocketChannel) msg.obj);
                 break;
             case Config.MSG_PULLIN_DATA:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage:  onPullIndata ...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage:  onPullIndata ...");
                 onPullInData((SocketChannel) msg.obj, msg.getData());
                 break;
             case Config.MSG_PUSHOUT_DATA:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: onPushOutData...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: onPushOutData...");
                 onPushOutData((String) msg.obj);
                 break;
             case Config.MSG_SELECT_ERROR:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: onSelectorError...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: onSelectorError...");
                 mConnMan.onSelectorError();
                 break;
             case Config.MSG_BROKEN_CONN:
-                WiFiDirectApp.PTPLog.d(TAG, "processMessage: onBrokenConn...");
+                WiFiDirectApplication.PTPLog.d(TAG, "processMessage: onBrokenConn...");
                 mConnMan.onBrokenConn((SocketChannel) msg.obj);
                 break;
             default:
@@ -412,22 +412,22 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
 
         notification.setLatestEventInfo(this, title, text, contentIntent);
         notificationManager.notify(1, notification);
-        WiFiDirectApp.PTPLog.d(TAG, "showNotification: " + row.mMsg);
+        WiFiDirectApplication.PTPLog.d(TAG, "showNotification: " + row.mMsg);
     }
 
     /**
      * show the message in activity
      */
     private void showInActivity(final MessageRow row) {
-        WiFiDirectApp.PTPLog.d(TAG, "showInActivity : " + row.mMsg);
+        WiFiDirectApplication.PTPLog.d(TAG, "showInActivity : " + row.mMsg);
         if (mActivity != null) {
             mActivity.showMessage(row);
         } else {
             if (mApp.mHomeActivity != null && mApp.mHomeActivity.mHasFocus == true) {
-                WiFiDirectApp.PTPLog.d(TAG, "showInActivity :  chat activity down, force start only when home activity has focus !");
+                WiFiDirectApplication.PTPLog.d(TAG, "showInActivity :  chat activity down, force start only when home activity has focus !");
                 mApp.mHomeActivity.startChatActivity(row.mMsg);
             } else {
-                WiFiDirectApp.PTPLog.d(TAG, "showInActivity :  Home activity down, do nothing, notification will launch it...");
+                WiFiDirectApplication.PTPLog.d(TAG, "showInActivity :  Home activity down, do nothing, notification will launch it...");
             }
         }
     }

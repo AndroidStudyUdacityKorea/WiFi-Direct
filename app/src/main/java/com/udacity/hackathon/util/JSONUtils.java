@@ -11,7 +11,7 @@
 
 package com.udacity.hackathon.util;
 
-import com.udacity.hackathon.WiFiDirectApp;
+import com.udacity.hackathon.WiFiDirectApplication;
 
 import static com.udacity.hackathon.util.Config.*;
 
@@ -50,7 +50,7 @@ public class JSONUtils {
     	try{
     		jsonobj = new JSONObject(jsonstr);
     	}catch(JSONException e){
-    		WiFiDirectApp.PTPLog.e(TAG, "getJsonObject : " + e.toString());
+    		WiFiDirectApplication.PTPLog.e(TAG, "getJsonObject : " + e.toString());
     	}
     	return jsonobj;
     }
@@ -66,7 +66,7 @@ public class JSONUtils {
         try {
             curjsons = new JSONArray(jsonstr);  // convert string back to json array
         } catch (JSONException e) {
-        	WiFiDirectApp.PTPLog.e(TAG, "getJSONArray:" + e.toString());
+        	WiFiDirectApplication.PTPLog.e(TAG, "getJSONArray:" + e.toString());
         }
         return curjsons;
     }
@@ -83,7 +83,7 @@ public class JSONUtils {
     				newarray.put(origarray.getJSONObject(i));
     			}
     		}catch(JSONException e){
-    			WiFiDirectApp.PTPLog.e(TAG, "truncateJSONArray :" + e.toString());
+    			WiFiDirectApplication.PTPLog.e(TAG, "truncateJSONArray :" + e.toString());
     		}
     		return newarray;
     	}else{
@@ -106,7 +106,7 @@ public class JSONUtils {
                 objstr = jsonobj.getString(key);
             } catch (JSONException e) {
                 objstr = null;
-                WiFiDirectApp.PTPLog.e(TAG, "findJSONObject:  get key Exception: " + e.toString());
+                WiFiDirectApplication.PTPLog.e(TAG, "findJSONObject:  get key Exception: " + e.toString());
             }
         }
 
@@ -117,7 +117,7 @@ public class JSONUtils {
                 return -1;
             }
         } else {
-        	WiFiDirectApp.PTPLog.d(TAG, "findJSONObject:  empty key string! no found. ");
+        	WiFiDirectApplication.PTPLog.d(TAG, "findJSONObject:  empty key string! no found. ");
             return -1;
         }
 
@@ -137,11 +137,11 @@ public class JSONUtils {
                 }
 
                 if (objstr.equals(entrystr)) {
-                	WiFiDirectApp.PTPLog.d(TAG, "findJSONObject: match :" + objstr);
+                	WiFiDirectApplication.PTPLog.d(TAG, "findJSONObject: match :" + objstr);
                     return i;   // return immediately
                 }
             } catch (JSONException e) {
-            	WiFiDirectApp.PTPLog.e(TAG, "findJSONObject: getJSONObject Exception: " + e.toString());
+            	WiFiDirectApplication.PTPLog.e(TAG, "findJSONObject: getJSONObject Exception: " + e.toString());
                 continue;
             }
         }
@@ -176,11 +176,11 @@ public class JSONUtils {
                         String newss = newobj.getString(MSG_SENDER);
                         JSONObject oldobj = existingjsons.getJSONObject(idx);
                         oldobj.put(MSG_SENDER, newss);
-                        WiFiDirectApp.PTPLog.d(TAG, "mergeJsonArrays: update ss: " + newss + " : " + oldobj.toString());
+                        WiFiDirectApplication.PTPLog.d(TAG, "mergeJsonArrays: update ss: " + newss + " : " + oldobj.toString());
                     }
                 }
             } catch (JSONException e) {
-                WiFiDirectApp.PTPLog.e(TAG, "mergeJSONArrays: getJSONObject Exception: " + e.toString());
+                WiFiDirectApplication.PTPLog.e(TAG, "mergeJSONArrays: getJSONObject Exception: " + e.toString());
                 continue;
             }
         }
@@ -195,7 +195,7 @@ public class JSONUtils {
         JSONArray curjsons = null;
         JSONArray newjsons = null;
 
-        WiFiDirectApp.PTPLog.d(TAG, "mergeJSONArrays:" + curstr + " =+= " + newstr);
+        WiFiDirectApplication.PTPLog.d(TAG, "mergeJSONArrays:" + curstr + " =+= " + newstr);
 
         // merge shortcut, if either one is null, return the other.
         if (curstr == null)
@@ -207,7 +207,7 @@ public class JSONUtils {
             curjsons = new JSONArray(curstr);  // convert string back to json array
             newjsons = new JSONArray(newstr);
         } catch (JSONException e) {
-        	WiFiDirectApp.PTPLog.e(TAG, "mergeJSONArrays:" + e.toString());
+        	WiFiDirectApplication.PTPLog.e(TAG, "mergeJSONArrays:" + e.toString());
             return curstr;   // return the original curstr, no merge.
         }
 
@@ -226,7 +226,7 @@ public class JSONUtils {
      */
     @Deprecated
     public static boolean fuzzyMatchJsonArrays(String dbJsonStr, String curJsonStr, String key) {
-    	WiFiDirectApp.PTPLog.d(TAG, "fuzzyMatchJSONArrays : dbsdbjsonstret : " + dbJsonStr + " : curjsonstr :" + curJsonStr);
+    	WiFiDirectApplication.PTPLog.d(TAG, "fuzzyMatchJSONArrays : dbsdbjsonstret : " + dbJsonStr + " : curjsonstr :" + curJsonStr);
         if (dbJsonStr == null || curJsonStr == null) {
             return false;    // no match if either of them is null.
         }
@@ -237,7 +237,7 @@ public class JSONUtils {
             dbjsons = new JSONArray(dbJsonStr);  // convert string back to json array
             curjsons = new JSONArray(curJsonStr);
         } catch (JSONException e) {
-        	WiFiDirectApp.PTPLog.e(TAG, "mergeJSONArrays:" + e.toString());
+        	WiFiDirectApplication.PTPLog.e(TAG, "mergeJSONArrays:" + e.toString());
             return false;   // no merge if either is wrong
         }
 
@@ -247,7 +247,7 @@ public class JSONUtils {
             try {
                 curobj = curjsons.getJSONObject(i);
             } catch (JSONException e) {
-            	WiFiDirectApp.PTPLog.e(TAG, "mergeJSONArrays: getJSONObject Exception: " + e.toString());
+            	WiFiDirectApplication.PTPLog.e(TAG, "mergeJSONArrays: getJSONObject Exception: " + e.toString());
                 continue;  // skip this entry if can not construct object.
             }
 
@@ -283,7 +283,7 @@ public class JSONUtils {
                 valset.add(valstr);
                 //LSAppLog.d(TAG, "getValueSetFromJSONArray: " + valstr);
             } catch (JSONException e) {
-            	WiFiDirectApp.PTPLog.e(TAG, "getValueSetFromJSONArray: Exception: " + e.toString());
+            	WiFiDirectApplication.PTPLog.e(TAG, "getValueSetFromJSONArray: Exception: " + e.toString());
                 continue;  // skip this entry if can not construct object.
             }
         }
@@ -302,7 +302,7 @@ public class JSONUtils {
                     wrapstr = wrap + s + wrap;      
                 }
                 if (jsonString.indexOf(wrapstr) >= 0) {
-                    WiFiDirectApp.PTPLog.d(TAG, "intersectSetJsonArray: Match: " + wrapstr);
+                    WiFiDirectApplication.PTPLog.d(TAG, "intersectSetJsonArray: Match: " + wrapstr);
                     matchcnt++;
                 }
             }

@@ -14,7 +14,7 @@ package com.udacity.hackathon.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.udacity.hackathon.WiFiDirectApp;
+import com.udacity.hackathon.WiFiDirectApplication;
 
 /**
 *<code><pre>
@@ -38,10 +38,10 @@ public class PrefUtils {
     
     public static final String P2P_ENABLED = "p2pEnabled";
 
-    private WiFiDirectApp mApp;
+    private WiFiDirectApplication mApp;
     private SharedPreferences mPref;
 
-    public PrefUtils(WiFiDirectApp app) {
+    public PrefUtils(WiFiDirectApplication app) {
     	mApp = app;
         mPref = mApp.getSharedPreferences(Config.PACKAGE_NAME, 0);
     }

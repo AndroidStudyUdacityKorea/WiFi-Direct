@@ -61,12 +61,12 @@ public class DeviceDetailFragment extends Fragment {
     private WifiP2pInfo info;
     ProgressDialog progressDialog = null;
     
-    WiFiDirectApp mApp = null;
+    WiFiDirectApplication mApp = null;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mApp = (WiFiDirectApp)getActivity().getApplication();
+        mApp = (WiFiDirectApplication)getActivity().getApplication();
     }
     
     @Override
@@ -176,12 +176,12 @@ public class DeviceDetailFragment extends Fragment {
         
         if( ! mApp.mIsServer && mApp.mMyAddr == null ){
         	Toast.makeText(mApp, "Connect to Server Failed, Please try again...", Toast.LENGTH_LONG).show();
-        	WiFiDirectApp.PTPLog.d(TAG, "onConnectionInfoAvailable : connect to serve failed...try again ! ");
+        	WiFiDirectApplication.PTPLog.d(TAG, "onConnectionInfoAvailable : connect to serve failed...try again ! ");
         }else{
         	// hide the connect button and enable start chat button
         	mContentView.findViewById(R.id.btn_connect).setVisibility(View.GONE);
         	mContentView.findViewById(R.id.btn_start_client).setVisibility(View.VISIBLE);
-        	WiFiDirectApp.PTPLog.d(TAG, "onConnectionInfoAvailable: socket connection established, show start chat button ! ");
+        	WiFiDirectApplication.PTPLog.d(TAG, "onConnectionInfoAvailable: socket connection established, show start chat button ! ");
         }
     }
 
@@ -203,7 +203,7 @@ public class DeviceDetailFragment extends Fragment {
      * Clears the UI fields after a disconnect or direct mode disable operation.
      */
     public void resetViews() {
-    	WiFiDirectApp.PTPLog.d(TAG, "resetViews: detail frag dismiss progress dialog and clear views");
+    	WiFiDirectApplication.PTPLog.d(TAG, "resetViews: detail frag dismiss progress dialog and clear views");
     	if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

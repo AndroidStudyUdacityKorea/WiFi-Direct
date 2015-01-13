@@ -42,7 +42,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
 
 	private static final String TAG = "PTP_ListFrag";
 	
-	WiFiDirectApp mApp = null;
+	WiFiDirectApplication mApp = null;
 	
     private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     ProgressDialog progressDialog = null;
@@ -54,7 +54,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         super.onActivityCreated(savedInstanceState);
         // set list adapter with row layout to adapter data
         this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.row_devices, peers));
-        mApp = (WiFiDirectApp)getActivity().getApplication();
+        mApp = (WiFiDirectApplication)getActivity().getApplication();
         onPeersAvailable(mApp.mPeers);
     }
 
@@ -117,7 +117,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                 if (bottom != null) {
                     bottom.setText(ConnectionService.getDeviceStatus(device.status));
                 }
-                WiFiDirectApp.PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
+                WiFiDirectApplication.PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
             }
             return v;
         }
@@ -132,7 +132,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
     	TextView nameview = (TextView) mContentView.findViewById(R.id.my_name);
     	TextView statusview = (TextView) mContentView.findViewById(R.id.my_status);
     	if ( device != null) {
-	    	WiFiDirectApp.PTPLog.d(TAG, "updateThisDevice: " + device.deviceName + " = " + ConnectionService.getDeviceStatus(device.status));
+	    	WiFiDirectApplication.PTPLog.d(TAG, "updateThisDevice: " + device.deviceName + " = " + ConnectionService.getDeviceStatus(device.status));
 	    	this.device = device;
 	        nameview.setText(device.deviceName);
 	        statusview.setText(ConnectionService.getDeviceStatus(device.status));
@@ -154,7 +154,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         peers.addAll(peerList);
         ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
         if (peers.size() == 0) {
-            WiFiDirectApp.PTPLog.d(WiFiDirectActivity.TAG, "onPeersAvailable : No devices found");
+            WiFiDirectApplication.PTPLog.d(WiFiDirectActivity.TAG, "onPeersAvailable : No devices found");
             return;
         }
     }

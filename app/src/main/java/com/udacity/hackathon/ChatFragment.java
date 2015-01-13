@@ -28,7 +28,7 @@ import java.util.List;
 public class ChatFragment extends ListFragment {
 	private static final String TAG = "PTP_ChatFrag";
 	
-	WiFiDirectApp mApp = null; 
+	WiFiDirectApplication mApp = null;
 	private static MainActivity mActivity = null;
 	
 	private ArrayList<MessageRow> mMessageList = null;   // a list of chat msgs.
@@ -55,7 +55,7 @@ public class ChatFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {  // this callback invoked after newInstance done.  
         super.onCreate(savedInstanceState);
-        mApp = (WiFiDirectApp)mActivity.getApplication();
+        mApp = (WiFiDirectApplication)mActivity.getApplication();
         
         setRetainInstance(true);   // Tell the framework to try to keep this fragment around during a configuration change.
     }
@@ -93,14 +93,14 @@ public class ChatFragment extends ListFragment {
 				MessageRow row = new MessageRow(mApp.mDeviceName, inputMsg, null);
 				appendChatMessage(row);
 				String jsonMsg = mApp.shiftInsertMessage(row);
-				WiFiDirectApp.PTPLog.d(TAG, "sendButton clicked: sendOut data : " + jsonMsg);
+				WiFiDirectApplication.PTPLog.d(TAG, "sendButton clicked: sendOut data : " + jsonMsg);
 				mActivity.pushOutMessage(jsonMsg);
 			}
         });
         
         String groupOwnerAddr = getArguments().getString("groupOwnerAddr");
         String msg = getArguments().getString("initMsg");
-        WiFiDirectApp.PTPLog.d(TAG, "onCreateView : fragment view created: msg :" + msg);
+        WiFiDirectApplication.PTPLog.d(TAG, "onCreateView : fragment view created: msg :" + msg);
         
     	if( savedInstanceState != null ){
             mMessageList = savedInstanceState.getParcelableArrayList("MSG_LIST");
@@ -118,7 +118,7 @@ public class ChatFragment extends ListFragment {
         
         setListAdapter(mAdapter);  // list fragment data adapter 
         
-        WiFiDirectApp.PTPLog.d(TAG, "onCreate chat msg fragment: devicename : " + mApp.mDeviceName + " : " + getArguments().getString("initMsg"));
+        WiFiDirectApplication.PTPLog.d(TAG, "onCreate chat msg fragment: devicename : " + mApp.mDeviceName + " : " + getArguments().getString("initMsg"));
         return contentView;
     }
     
@@ -155,11 +155,11 @@ public class ChatFragment extends ListFragment {
     	try{
     		for(int i=0;i<jsonarray.length();i++){
     			MessageRow row = MessageRow.parseMesssageRow(jsonarray.getJSONObject(i));
-    			WiFiDirectApp.PTPLog.d(TAG, "jsonArrayToList: row : " + row.mMsg);
+    			WiFiDirectApplication.PTPLog.d(TAG, "jsonArrayToList: row : " + row.mMsg);
     			list.add(row);
     		}
     	}catch(JSONException e){
-    		WiFiDirectApp.PTPLog.e(TAG, "jsonArrayToList: " + e.toString());
+    		WiFiDirectApplication.PTPLog.e(TAG, "jsonArrayToList: " + e.toString());
     	}
     }
     

@@ -5,4 +5,14 @@
     <color name="row_background">#ff00ffff</color>
     <color name="my_msg_background">#FF494949</color>
     <color name="in_msg_background">#FF0D4C63</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#7A7A7A</color>
+    <color name="background">#0044AA</color>
+    <color name="blue_light">#449DEF</color>
+    <color name="blue_dark">#2F6699</color>
+    <color name="green_light">#70C656</color>
+    <color name="green_dark">#53933F</color>
+    <color name="orange_light">#F3AE1B</color>
+    <color name="orange_dark">#BB6008</color>
+    <color name="black">#000000</color>
 </resources>

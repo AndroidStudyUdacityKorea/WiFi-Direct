@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	
 	public static final String TAG = "PTP_ChatAct";
 	
-	WiFiDirectApp mApp = null;
+	WiFiDirectApplication mApp = null;
 	ChatFragment mChatFrag = null;
 	
 	@Override
@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 		Intent i = getIntent();
 		String initMsg = i.getStringExtra("FIRST_MSG");
 		
-		mApp = (WiFiDirectApp)getApplication(); 
+		mApp = (WiFiDirectApplication)getApplication();
 		initFragment(initMsg);
 	}
 	
