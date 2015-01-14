@@ -36,6 +36,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.udacity.hackathon.DeviceListFragment.DeviceActionListener;
+import com.udacity.hackathon.ui.SettingsActivity;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -244,6 +245,13 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
             case R.id.help:
                 WiFiDirectApplication.PTPLog.d(TAG, "onOptionsItemSelected : help ");
                 Toast.makeText(this, "learn to use Peer-Peer to fight against censorship", Toast.LENGTH_LONG).show();
+                return true;
+
+            case R.id.settings:
+                WiFiDirectApplication.PTPLog.d(TAG, "onOptionsItemSelected : help ");
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(intent);
+                finish();
                 return true;
 
             default:

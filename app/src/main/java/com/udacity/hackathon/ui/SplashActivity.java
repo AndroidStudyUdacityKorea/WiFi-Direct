@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.udacity.hackathon.R;
 import com.udacity.hackathon.WiFiDirectActivity;
+import com.udacity.hackathon.util.PrefUtils;
 
 public class SplashActivity extends Activity {
 
@@ -56,7 +57,15 @@ public class SplashActivity extends Activity {
     }
 
     private void launchActivity() {
-        Intent intent = new Intent(getApplicationContext(), WiFiDirectActivity.class);
+
+        Intent intent = null;
+
+        String name = PrefUtils.getString(getApplicationContext(), "name");
+        if (null == name || "".equals(name)) {
+            intent = new Intent(getApplicationContext(), NameInputActivity.class);
+        } else {
+            intent = new Intent(getApplicationContext(), WiFiDirectActivity.class);
+        }
         startActivity(intent);
         finish();
     }

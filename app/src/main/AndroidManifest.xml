@@ -29,7 +29,6 @@
             android:name=".WiFiDirectActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask" />
-        
         <activity android:name=".MainActivity" />
 
         <!-- Broadcast Receiver -->
@@ -58,6 +57,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".ui.NameInputActivity"
+            android:label="@string/title_activity_name_input" />
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/PreferencesTheme">
+
         </activity>
     </application>
 
