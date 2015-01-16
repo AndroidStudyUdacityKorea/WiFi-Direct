@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -57,10 +58,13 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);   // statically draw two <fragment class=>
+        setContentView(R.layout.activity_main);   // statically draw two <fragment class=>
+
+        getActionBar().setTitle("");
+        getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.background_img));
 
         mApp = (WiFiDirectApplication) getApplication();
-
         mApp.mHomeActivity = this;
 
         // If service not started yet, start it.

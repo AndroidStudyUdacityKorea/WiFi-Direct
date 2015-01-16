@@ -55,7 +55,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // set list adapter with row layout to adapter data
-        this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.row_devices, peers));
+        this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.peer_devices_row, peers));
         mApp = (WiFiDirectApplication) getActivity().getApplication();
         onPeersAvailable(mApp.mPeers);
     }
@@ -107,7 +107,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.row_devices, null);
+                v = vi.inflate(R.layout.peer_devices_row, null);
             }
             WifiP2pDevice device = items.get(position);
             if (device != null) {
