@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.udacity.hackathon.Config;
 import com.udacity.hackathon.ui.WiFiDirectApplication;
 
 /**

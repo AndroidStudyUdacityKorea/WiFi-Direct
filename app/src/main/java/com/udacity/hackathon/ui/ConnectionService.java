@@ -25,7 +25,7 @@ import android.util.Log;
 import com.udacity.hackathon.R;
 import com.udacity.hackathon.handler.WorkHandler;
 import com.udacity.hackathon.model.MessageRow;
-import com.udacity.hackathon.util.Config;
+import com.udacity.hackathon.Config;
 import com.udacity.hackathon.util.PrefUtils;
 
 import java.nio.channels.SocketChannel;
@@ -398,14 +398,12 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     public void showNotification(MessageRow row) {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.ic_action_discover, row.mMsg, System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.ic_logo, row.mMsg, System.currentTimeMillis());
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         CharSequence title = row.mSender;
         CharSequence text = row.mMsg;
 
-        //Intent notificationIntent = new Intent(this, WiFiDirectActivity.class);
-        Intent notificationIntent = mApp.getLauchActivityIntent(MainActivity.class, row.mMsg);
-        // pendingIntent that will start a new activity.
+        Intent notificationIntent = mApp.getLauchActivityIntent(WiFiDirectActivity.class, row.mMsg);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         notification.setLatestEventInfo(this, title, text, contentIntent);

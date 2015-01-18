@@ -131,7 +131,7 @@ public class ChatFragment extends ListFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {  // invoked after fragment view created.
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         if (mMessageList.size() > 0) {
@@ -231,7 +231,7 @@ public class ChatFragment extends ListFragment {
             time.setText(item.mTime);
 
             Log.d(TAG, "getView : " + item.mSender + " " + item.mMsg + " " + item.mTime);
-            
+
             return view;
         }
     }

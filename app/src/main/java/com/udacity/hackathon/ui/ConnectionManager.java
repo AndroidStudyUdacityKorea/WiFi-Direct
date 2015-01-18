@@ -2,6 +2,7 @@ package com.udacity.hackathon.ui;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.udacity.hackathon.util.SelectorAsyncTask;
 
@@ -31,8 +32,6 @@ public class ConnectionManager {
     ConnectionService mService;
     WiFiDirectApplication mApp;
 
-    // Server knows all clients. key is ip addr, value is socket channel.
-    // when remote client screen on, a new connection with the same ip addr is established.
     private Map<String, SocketChannel> mClientChannels = new HashMap<String, SocketChannel>();
 
     // global selector and channels
@@ -83,11 +82,6 @@ public class ConnectionManager {
         return sChannel;
     }
 
-
-    /**
-     * create a socket channel and connect to the host.
-     * after return, the socket channel guarantee to be connected.
-     */
     public SocketChannel connectTo(String hostname, int port) throws Exception {
         SocketChannel sChannel = null;
 
@@ -145,11 +139,10 @@ public class ConnectionManager {
      * The registration process yields an object called a selection key which identifies the selector/socket channel pair
      */
     public int startServerSelector() {
-        closeClient();   // close linger client, if exists.
+        closeClient();
 
         try {
-            // create server socket and register to selector to listen OP_ACCEPT event
-            ServerSocketChannel sServerChannel = createServerSocketChannel(1080); // BindException if already bind.
+            ServerSocketChannel sServerChannel = createServerSocketChannel(1080);
             mServerSocketChannel = sServerChannel;
             mServerAddr = mServerSocketChannel.socket().getInetAddress().getHostAddress();
             if ("0.0.0.0".equals(mServerAddr)) {
@@ -162,8 +155,6 @@ public class ConnectionManager {
             acceptKey.attach("accept_channel");
             mApp.mIsServer = true;
 
-            //SocketChannel sChannel = createSocketChannel("hostname.com", 80);
-            //sChannel.register(selector, SelectionKey.OP_CONNECT);  // listen to connect event.
             Log.d(TAG, "startServerSelector : started: " + sServerChannel.socket().getLocalSocketAddress().toString());
 
             new SelectorAsyncTask(mService, mServerSelector).execute();
@@ -245,6 +236,7 @@ public class ConnectionManager {
         String ipaddr = schannel.socket().getInetAddress().getHostAddress();
         Log.d(TAG, "onNewClient : server added remote client: " + ipaddr);
         mClientChannels.put(ipaddr, schannel);
+        Toast.makeText(mContext, "새로운 멤버가 접속했습니다.", Toast.LENGTH_SHORT).show();
     }
 
     /**

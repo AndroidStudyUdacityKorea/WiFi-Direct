@@ -1,4 +1,4 @@
-package com.udacity.hackathon.util;
+package com.udacity.hackathon;
 
 public final class Config {
 

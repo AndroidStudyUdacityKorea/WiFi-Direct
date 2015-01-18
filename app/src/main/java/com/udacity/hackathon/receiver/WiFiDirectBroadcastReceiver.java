@@ -29,17 +29,12 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
 
     private static final String TAG = WiFiDirectBroadcastReceiver.class.getSimpleName();
 
-    /*
-     * (non-Javadoc)
-     * @see android.content.BroadcastReceiver#onReceive(android.content.Context,
-     * android.content.Intent)
-     */
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Intent serviceIntent = new Intent(context, ConnectionService.class);  // start ConnectionService
-        serviceIntent.setAction(action);   // put in action and extras
+        Intent serviceIntent = new Intent(context, ConnectionService.class);
+        serviceIntent.setAction(action);
         serviceIntent.putExtras(intent);
-        context.startService(serviceIntent);  // start the connection service
+        context.startService(serviceIntent);
     }
 }

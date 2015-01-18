@@ -101,7 +101,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
     }
 
     @Override
-    public void onStop() {  // the activity is no long visible
+    public void onStop() {
         super.onStop();
         mHasFocus = false;
     }
@@ -113,10 +113,6 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
         WiFiDirectApplication.PTPLog.d(TAG, "onDestroy: reset app home activity.");
     }
 
-    /**
-     * Remove all peers and clear all fields. This is called on
-     * BroadcastReceiver receiving a state change event.
-     */
     public void resetData() {
         runOnUiThread(new Runnable() {
             @Override
@@ -154,7 +150,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
             @Override
             public void run() {
                 DeviceListFragment fragmentList = (DeviceListFragment) getFragmentManager().findFragmentById(R.id.frag_list);
-                fragmentList.onPeersAvailable(mApp.mPeers);  // use application cached list.
+                fragmentList.onPeersAvailable(mApp.mPeers);
                 DeviceDetailFragment fragmentDetails = (DeviceDetailFragment) getFragmentManager().findFragmentById(R.id.frag_detail);
 
                 for (WifiP2pDevice d : peerList.getDeviceList()) {
@@ -200,12 +196,9 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
 
             case R.id.atn_direct_enable:
                 if (!mApp.isP2pEnabled()) {
-                    // Since this is the system wireless settings activity, it's
-                    // not going to send us a result. We will be notified by
-                    // WiFiDeviceBroadcastReceiver instead.
                     startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                 } else {
-                    Log.e(TAG, " WiFi direct support : already enabled. ");
+                    Toast.makeText(WiFiDirectActivity.this, "WiFi Direct가 켜져 있습니다.", Toast.LENGTH_LONG).show();
                 }
                 return true;
             case R.id.atn_direct_discover:
@@ -214,7 +207,6 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
                     return true;
                 }
 
-                // show progressbar when discoverying.
                 final DeviceListFragment fragment = (DeviceListFragment) getFragmentManager().findFragmentById(R.id.frag_list);
                 fragment.onInitiateDiscovery();
 
@@ -281,12 +273,12 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
             @Override
             public void onSuccess() {
                 // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
-                Toast.makeText(WiFiDirectActivity.this, "Connect success..", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WiFiDirectActivity.this, "연결 성공..", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int reason) {
-                Toast.makeText(WiFiDirectActivity.this, "Connect failed. Retry.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WiFiDirectActivity.this, "연결 실패. 재시작.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -299,35 +291,40 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
         fragment.resetViews();
         WiFiDirectApplication.PTPLog.d(TAG, "disconnect : removeGroup ");
         mApp.mP2pMan.removeGroup(mApp.mP2pChannel, new ActionListener() {
-            @Override
-            public void onFailure(int reasonCode) {
-                WiFiDirectApplication.PTPLog.d(TAG, "Disconnect failed. Reason : 1=error, 2=busy; " + reasonCode);
-                Toast.makeText(WiFiDirectActivity.this, "disconnect failed.." + reasonCode, Toast.LENGTH_SHORT).show();
-            }
+                    @Override
+                    public void onFailure(int reasonCode) {
+                        WiFiDirectApplication.PTPLog.d(TAG, "Disconnect failed. Reason : 1=error, 2=busy; " + reasonCode);
+                        String result = (reasonCode == 1) ? "에러" : "동작중";
 
-            @Override
-            public void onSuccess() {
-                WiFiDirectApplication.PTPLog.d(TAG, "Disconnect succeed. ");
-                fragment.getView().setVisibility(View.GONE);
-            }
-        });
+                        Toast.makeText(WiFiDirectActivity.this, "disconnect failed.." + result, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess() {
+                        WiFiDirectApplication.PTPLog.d(TAG, "Disconnect succeed. ");
+                        fragment.getView().setVisibility(View.GONE);
+                    }
+                }
+
+        );
     }
 
     /**
      * The channel to the framework(WiFi direct) has been disconnected.
      * This is diff than the p2p connection to group owner.
      */
+
     public void onChannelDisconnected() {
-        Toast.makeText(this, "Severe! Channel is probably lost premanently. Try Disable/Re-Enable P2P.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "연결이 재대로 되지 않습니다. P2P 기능을 껐다가 다시 켜주세요.", Toast.LENGTH_LONG).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("WiFi Direct down, please re-enable WiFi Direct")
+        builder.setMessage("WiFi Direct 음답 없음, WiFi Direct를 재시작 해 주세요.")
                 .setCancelable(true)
-                .setPositiveButton("Re-enable WiFi Direct", new DialogInterface.OnClickListener() {
+                .setPositiveButton("WiFi Direct 재시작", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
                     }
                 })
-                .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         finish();
                     }
@@ -352,13 +349,13 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
                 mApp.mP2pMan.cancelConnect(mApp.mP2pChannel, new ActionListener() {
                     @Override
                     public void onSuccess() {
-                        Toast.makeText(WiFiDirectActivity.this, "Aborting connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WiFiDirectActivity.this, "연결 취소 됨.", Toast.LENGTH_SHORT).show();
                         WiFiDirectApplication.PTPLog.d(TAG, "cancelConnect : success canceled...");
                     }
 
                     @Override
                     public void onFailure(int reasonCode) {
-                        Toast.makeText(WiFiDirectActivity.this, "cancelConnect: request failed. Please try again.. ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WiFiDirectActivity.this, "연결 실패. 재시작 해주세요.. ", Toast.LENGTH_SHORT).show();
                         WiFiDirectApplication.PTPLog.d(TAG, "cancelConnect : cancel connect request failed..." + reasonCode);
                     }
                 });

@@ -2,25 +2,16 @@ package com.udacity.hackathon.ui;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.udacity.hackathon.R;
 import com.udacity.hackathon.model.MessageRow;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.udacity.hackathon.util.Config.MSG_PUSHOUT_DATA;
-import static com.udacity.hackathon.util.Config.MSG_REGISTER_ACTIVITY;
+import static com.udacity.hackathon.Config.MSG_PUSHOUT_DATA;
+import static com.udacity.hackathon.Config.MSG_REGISTER_ACTIVITY;
 
 public class MainActivity extends Activity {
 
@@ -44,15 +35,12 @@ public class MainActivity extends Activity {
      * init fragement with possible recvd start up message.
      */
     public void initFragment(String initMsg) {
-        // to add fragments to your activity layout, just specify which viewgroup to place the fragment.
         final FragmentTransaction ft = getFragmentManager().beginTransaction();
         if (mChatFrag == null) {
-            //mChatFrag = ChatFragment.newInstance(this, ConnectionService.getInstance().mConnMan.mServerAddr);
             mChatFrag = ChatFragment.newInstance(this, null, initMsg);
         }
 
         Log.d(TAG, "initFragment : show chat fragment..." + initMsg);
-        // chat fragment on top, do not do replace, as frag_detail already hard coded in layout.
         ft.add(R.id.frag_chat, mChatFrag, "chat_frag");
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
@@ -78,68 +66,6 @@ public class MainActivity extends Activity {
         Log.d(TAG, " onDestroy: nothing... ");
     }
 
-    /**
-     * set listview weight works, only when layout has only one LinearLayout.
-     */
-    @Deprecated
-    private void testWithListViewWeight() {
-        List<String> mMessageList;   // a list of chat msgs.
-        ArrayAdapter<String> mAdapter;
-
-        mMessageList = new ArrayList<String>(200);
-        for (int i = 0; i < 100; i++)
-            mMessageList.add("User logged in");
-        mAdapter = new ChatMessageAdapter(this, mMessageList);
-
-        //setListAdapter(mAdapter);  // list fragment data adapter
-        mAdapter.notifyDataSetChanged();  // notify the attached observer and views to refresh.
-    }
-
-
-    /**
-     * list view adapter for this activity when testing without using fragment!
-     * deprecated, as we should always use fragment, template.
-     */
-    @Deprecated
-    final class ChatMessageAdapter extends ArrayAdapter<String> {
-
-        private LayoutInflater mInflater;
-
-        public ChatMessageAdapter(Context context, List<String> objects) {
-            super(context, 0, objects);
-            mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return IGNORE_ITEM_VIEW_TYPE;   // do not care
-        }
-
-        /**
-         * assemble each row view in the list view.
-         */
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            String item = this.getItem(position);
-
-            if (view == null) {
-                view = mInflater.inflate(R.layout.msg_row, null);
-            }
-
-            TextView msgRow = (TextView) view.findViewById(R.id.msg_row);
-            msgRow.setText(item);
-
-            return view;
-        }
-    }
-
-    /**
-     * register this activity to service process, so that service later can update list view.
-     * In AsyncTask, the activity itself is passed to the constructor of asyncTask, hence later
-     * onPostExecute() can do mActivity.mCommentsAdapter.notifyDataSetChanged();
-     * Just need to be careful of reference to avoid mem leak.
-     */
     protected void registerActivityToService(boolean register) {
         if (ConnectionService.getInstance() != null) {
             Message msg = ConnectionService.getInstance().getHandler().obtainMessage();

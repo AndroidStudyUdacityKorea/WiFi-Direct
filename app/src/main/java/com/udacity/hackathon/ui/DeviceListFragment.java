@@ -37,10 +37,6 @@ import com.udacity.hackathon.util.PrefUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A ListFragment that displays available peers on discovery and requests the
- * parent activity to handle user interaction events
- */
 public class DeviceListFragment extends ListFragment {  // callback of requestPeers
 
     private static final String TAG = DeviceListFragment.class.getSimpleName();
@@ -55,7 +51,6 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // set list adapter with row layout to adapter data
         this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.peer_devices_row, peers));
         mApp = (WiFiDirectApplication) getActivity().getApplication();
         onPeersAvailable(mApp.mPeers);
@@ -115,7 +110,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                 TextView top = (TextView) v.findViewById(R.id.device_name);
                 TextView bottom = (TextView) v.findViewById(R.id.device_details);
                 if (top != null) {
-                    top.setText(device.deviceName);
+                    top.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
                 }
                 if (bottom != null) {
                     bottom.setText(ConnectionService.getDeviceStatus(device.status));
@@ -131,7 +126,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
      *
      * @param device WifiP2pDevice object
      */
-    public void updateThisDevice(WifiP2pDevice device) { // callback of this device details changed bcast event.
+    public void updateThisDevice(WifiP2pDevice device) {
         TextView nameview = (TextView) mContentView.findViewById(R.id.my_name);
         TextView statusview = (TextView) mContentView.findViewById(R.id.my_status);
         if (device != null) {
@@ -141,7 +136,6 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
             nameview.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
             statusview.setText(ConnectionService.getDeviceStatus(device.status));
         } else if (this.device != null) {
-            nameview.setText(this.device.deviceName);
             nameview.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
             statusview.setText("와이파이 다이렉트롤 켜주세요.");
         }
@@ -184,7 +178,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        progressDialog = ProgressDialog.show(getActivity(), "취소는 back 버튼 클릭 ", "연결 대상자를 찾고 있습니다.", true,
+        progressDialog = ProgressDialog.show(getActivity(), "취소는 back 버튼 클릭 ", "연결 대상을 찾고 있습니다.", true,
                 true, new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
@@ -192,10 +186,6 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                 });
     }
 
-    /**
-     * An interface-callback for the activity to listen to fragment interaction
-     * events.
-     */
     public interface DeviceActionListener {
 
         void showDetails(WifiP2pDevice device);

@@ -10,7 +10,7 @@
     <string name="empty"></string>
     <string name="yes">yes</string>
     <string name="no">no</string>
-    <string name="client_text">This device will act as a client. Click on Start Chatting button</string>
+    <string name="client_text">현재 오너가 아닙니다. 채팅 시작 버튼을 눌러주세요.</string>
     <string name="empty_message">연결할 장비를 찾을 수 없습니다.</string>
     <string name="p2p_off_warning">세팅 메뉴에서 P2P 기능을 활성화 시켜주세요.</string>
     <string name="group_owner_text">"Am I the Group Owner? "</string>

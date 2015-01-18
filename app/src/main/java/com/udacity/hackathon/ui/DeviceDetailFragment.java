@@ -161,9 +161,6 @@ public class DeviceDetailFragment extends Fragment {
                 + ((info.isGroupOwner == true) ? getResources().getString(R.string.yes)
                 : getResources().getString(R.string.no)));
 
-        // InetAddress from WifiP2pInfo struct.
-        view.setText("Group Owner IP - " + info.groupOwnerAddress.getHostAddress());
-
         Log.d(TAG, "onConnectionInfoAvailable: " + info.groupOwnerAddress.getHostAddress());
         if (info.groupFormed && info.isGroupOwner) {
             //new FileServerAsyncTask(getActivity(), mContentView.findViewById(R.id.status_text)).execute();
@@ -255,10 +252,6 @@ public class DeviceDetailFragment extends Fragment {
             }
         }
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-         */
         @Override
         protected void onPostExecute(String result) {
             if (result != null) {
@@ -271,10 +264,7 @@ public class DeviceDetailFragment extends Fragment {
 
         }
 
-        /*
-         * (non-Javadoc)
-         * @see android.os.AsyncTask#onPreExecute()
-         */
+
         @Override
         protected void onPreExecute() {
             statusText.setText("Opening a server socket");

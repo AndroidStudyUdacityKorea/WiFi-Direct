@@ -16,11 +16,11 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 
-import static com.udacity.hackathon.util.Config.MSG_BROKEN_CONN;
-import static com.udacity.hackathon.util.Config.MSG_FINISH_CONNECT;
-import static com.udacity.hackathon.util.Config.MSG_NEW_CLIENT;
-import static com.udacity.hackathon.util.Config.MSG_PULLIN_DATA;
-import static com.udacity.hackathon.util.Config.MSG_SELECT_ERROR;
+import static com.udacity.hackathon.Config.MSG_BROKEN_CONN;
+import static com.udacity.hackathon.Config.MSG_FINISH_CONNECT;
+import static com.udacity.hackathon.Config.MSG_NEW_CLIENT;
+import static com.udacity.hackathon.Config.MSG_PULLIN_DATA;
+import static com.udacity.hackathon.Config.MSG_SELECT_ERROR;
 
 /**
  * AsyncTask is only for UI thread to submit work(impl inside doInbackground) to executor.
@@ -138,7 +138,7 @@ public class SelectorAsyncTask extends AsyncTask<Void, Void, Void> {
      * read data when OP_READ event
      */
     public String readData(SocketChannel sChannel) {
-        ByteBuffer buf = ByteBuffer.allocate(1024 * 4);   // let's cap json string to 4k for now.
+        ByteBuffer buf = ByteBuffer.allocate(1024 * 10);   // let's cap json string to 4k for now.
         byte[] bytes = null;
         String jsonString = null;
 

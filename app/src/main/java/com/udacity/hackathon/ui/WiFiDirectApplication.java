@@ -19,8 +19,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.udacity.hackathon.util.Config.MSG_STARTCLIENT;
-import static com.udacity.hackathon.util.Config.MSG_STARTSERVER;
+import static com.udacity.hackathon.Config.MSG_STARTCLIENT;
+import static com.udacity.hackathon.Config.MSG_STARTSERVER;
 
 public class WiFiDirectApplication extends Application {
 
