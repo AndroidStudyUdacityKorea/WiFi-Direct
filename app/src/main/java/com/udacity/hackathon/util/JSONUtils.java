@@ -11,7 +11,7 @@
 
 package com.udacity.hackathon.util;
 
-import com.udacity.hackathon.WiFiDirectApplication;
+import com.udacity.hackathon.ui.WiFiDirectApplication;
 
 import static com.udacity.hackathon.util.Config.*;
 

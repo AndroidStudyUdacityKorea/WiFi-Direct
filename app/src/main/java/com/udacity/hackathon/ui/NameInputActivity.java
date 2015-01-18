@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.udacity.hackathon.R;
-import com.udacity.hackathon.WiFiDirectActivity;
 import com.udacity.hackathon.util.PrefUtils;
 
 public class NameInputActivity extends Activity {

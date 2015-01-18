@@ -21,14 +21,14 @@
         android:required="true" />
 
     <application
-        android:name=".WiFiDirectApplication"
+        android:name=".ui.WiFiDirectApplication"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo">
         <activity
-            android:name=".WiFiDirectActivity"
+            android:name=".ui.WiFiDirectActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.MainActivity" />
 
         <!-- Broadcast Receiver -->
         <receiver android:name=".receiver.WiFiDirectBroadcastReceiver">
@@ -45,7 +45,7 @@
             android:name=".service.FileTransferService"
             android:enabled="true" />
         <service
-            android:name=".ConnectionService"
+            android:name=".ui.ConnectionService"
             android:enabled="true" />
 
         <activity android:name=".ui.SplashActivity">

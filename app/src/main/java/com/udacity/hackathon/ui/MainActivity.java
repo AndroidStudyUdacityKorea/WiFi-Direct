@@ -1,4 +1,4 @@
-package com.udacity.hackathon;
+package com.udacity.hackathon.ui;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.udacity.hackathon.R;
 import com.udacity.hackathon.model.MessageRow;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import static com.udacity.hackathon.util.Config.MSG_REGISTER_ACTIVITY;
 
 public class MainActivity extends Activity {
 
-    public static final String TAG = "PTP_ChatAct";
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     WiFiDirectApplication mApp = null;
     ChatFragment mChatFrag = null;

@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-	android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-	<TextView
-		android:id="@+id/header"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:gravity="center_vertical|center_horizontal"
-		android:layout_gravity="center"
-		android:text="Messages"/>
-
-	<ListView
-		android:id="@android:id/list"
-		android:layout_below="@id/header"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-		android:layout_weight="1.0"
-		android:layout_height="fill_parent"
-        android:layout_width="fill_parent" />
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="horizontal"
+    <TextView
+        android:id="@+id/header"
         android:layout_width="fill_parent"
-	    android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Messages" />
 
-	    <EditText
-		    android:id="@+id/edit_input"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content" 
-		    android:layout_weight="1.0"
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/header"
+        android:layout_weight="1.0"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_input"
+            android:layout_width="294dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="left"
-		    android:hint="Got something to say ?" >
-	    </EditText>
+            android:textColor="@color/blue_dark" />
 
         <Button
-		    android:id="@+id/btn_send"
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-		    android:layout_gravity="right"
-            android:text="Send" />
+            android:layout_height="fill_parent"
+            android:text="전송"
+            android:layout_gravity="right" />
     </LinearLayout>
 
 </LinearLayout>

@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.udacity.hackathon.R;
-import com.udacity.hackathon.WiFiDirectActivity;
 import com.udacity.hackathon.util.PrefUtils;
 
 public class SplashActivity extends Activity {

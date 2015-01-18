@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hackathon</string>
+    <string name="app_name">HackChat</string>
     <string name="enable_p2p_button">P2P On/Off</string>
     <string name="discover_peers_button">연결할 장비 찾기</string>
     <string name="connect_peer_button">연결하기</string>

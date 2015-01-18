@@ -16,19 +16,19 @@ import android.os.Looper;
 import android.os.Process;
 
 /**
- *<code><pre>
+ * <code><pre>
  * CLASS:
  *  implements stand alone worker thread
- *
+ * <p/>
  * RESPONSIBILITIES: for component to create a standalone thread other than main thread
- *
+ * <p/>
  * COLABORATORS:
  * 	LocationSensorManager
- *
+ * <p/>
  * USAGE:
  * 	See each method.
- *
- *</pre></code>
+ * <p/>
+ * </pre></code>
  */
 public final class WorkHandler {
 

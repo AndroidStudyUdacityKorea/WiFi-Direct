@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.udacity.hackathon.ConnectionService;
+import com.udacity.hackathon.ui.ConnectionService;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;

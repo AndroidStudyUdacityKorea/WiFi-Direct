@@ -1,4 +1,4 @@
-package com.udacity.hackathon;
+package com.udacity.hackathon.ui;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.udacity.hackathon.R;
 import com.udacity.hackathon.handler.WorkHandler;
 import com.udacity.hackathon.model.MessageRow;
 import com.udacity.hackathon.util.Config;
@@ -31,7 +32,7 @@ import java.nio.channels.SocketChannel;
 
 public class ConnectionService extends Service implements ChannelListener, PeerListListener, ConnectionInfoListener {
 
-    private static final String TAG = "PTP_Serv";
+    private static final String TAG = ConnectionService.class.getSimpleName();
     private static final int EMPTY = 1;
 
     private static ConnectionService _sinstance = null;
@@ -42,15 +43,15 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     boolean retryChannel = false;
 
     WiFiDirectApplication mApp;
-    MainActivity mActivity;    // shall I use weak reference here ?
+    MainActivity mActivity;
     ConnectionManager mConnMan;
 
     /**
      * @see android.app.Service#onCreate()
      */
-    private void _initialize() {
+    private void initialize() {
         if (_sinstance != null) {
-            WiFiDirectApplication.PTPLog.d(TAG, "_initialize, already initialized, do nothing.");
+            WiFiDirectApplication.PTPLog.d(TAG, "initialize , already initialized, do nothing.");
             return;
         }
 
@@ -61,7 +62,7 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
         mApp = (WiFiDirectApplication) getApplication();
         mApp.mP2pMan = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mApp.mP2pChannel = mApp.mP2pMan.initialize(this, mWorkHandler.getLooper(), null);
-        WiFiDirectApplication.PTPLog.d(TAG, "_initialize, get p2p service and init channel !!!");
+        WiFiDirectApplication.PTPLog.d(TAG, "initialize , get p2p service and init channel !!!");
 
         mConnMan = new ConnectionManager(this);
     }
@@ -73,13 +74,13 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
     @Override
     public void onCreate() {
         super.onCreate();
-        _initialize();
+        initialize();
         WiFiDirectApplication.PTPLog.d(TAG, "onCreate : done");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        _initialize();
+        initialize();
         processIntent(intent);
         return START_STICKY;
     }
@@ -200,8 +201,6 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
         WifiP2pDevice connectedPeer = mApp.getConnectedPeer();
         if (connectedPeer != null) {
             WiFiDirectApplication.PTPLog.d(TAG, "onPeersAvailable : exist connected peer : " + connectedPeer.deviceName);
-        } else {
-
         }
 
         if (mApp.mP2pInfo != null && connectedPeer != null) {
@@ -209,9 +208,8 @@ public class ConnectionService extends Service implements ChannelListener, PeerL
                 WiFiDirectApplication.PTPLog.d(TAG, "onPeersAvailable : device is groupOwner: startSocketServer");
                 mApp.startSocketServer();
             } else if (mApp.mP2pInfo.groupFormed && connectedPeer != null) {
-                // XXX client path goes to connection info available after connection established.
-                // PTPLog.d(TAG, "onConnectionInfoAvailable: device is client, connect to group owner: startSocketClient ");
-                // mApp.startSocketClient(mApp.mP2pInfo.groupOwnerAddress.getHostAddress());
+                WiFiDirectApplication.PTPLog.d(TAG, "onConnectionInfoAvailable: device is client, connect to group owner: startSocketClient ");
+                mApp.startSocketClient(mApp.mP2pInfo.groupOwnerAddress.getHostAddress());
             }
         }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.udacity.hackathon;
+package com.udacity.hackathon.ui;
 
 import android.app.ListFragment;
 import android.app.ProgressDialog;
@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udacity.hackathon.R;
 import com.udacity.hackathon.util.PrefUtils;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ import java.util.List;
  */
 public class DeviceListFragment extends ListFragment {  // callback of requestPeers
 
-    private static final String TAG = "PTP_ListFrag";
+    private static final String TAG = DeviceListFragment.class.getSimpleName();
 
     WiFiDirectApplication mApp = null;
 
@@ -142,7 +143,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         } else if (this.device != null) {
             nameview.setText(this.device.deviceName);
             nameview.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
-            statusview.setText("WiFi Direct Disabled, please re-enable.");
+            statusview.setText("와이파이 다이렉트롤 켜주세요.");
         }
     }
 
@@ -172,7 +173,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                 }
                 peers.clear();
                 ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
-                Toast.makeText(getActivity(), "p2p connection broken...please try again...", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "연결이 끊겼습니다. 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -183,7 +184,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        progressDialog = ProgressDialog.show(getActivity(), "Press back to cancel", "finding peers", true,
+        progressDialog = ProgressDialog.show(getActivity(), "취소는 back 버튼 클릭 ", "연결 대상자를 찾고 있습니다.", true,
                 true, new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {

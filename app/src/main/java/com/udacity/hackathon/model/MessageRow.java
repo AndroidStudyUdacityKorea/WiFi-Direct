@@ -3,7 +3,7 @@ package com.udacity.hackathon.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.udacity.hackathon.WiFiDirectApplication;
+import com.udacity.hackathon.ui.WiFiDirectApplication;
 import com.udacity.hackathon.util.JSONUtils;
 
 import org.json.JSONException;

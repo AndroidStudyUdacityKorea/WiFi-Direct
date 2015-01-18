@@ -20,14 +20,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.udacity.hackathon.ConnectionService;
+import com.udacity.hackathon.ui.ConnectionService;
 
 /**
  * A BroadcastReceiver that notifies of important wifi p2p events.
  */
 public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
 
-	private static final String TAG = "PTP_Recv";
+    private static final String TAG = WiFiDirectBroadcastReceiver.class.getSimpleName();
 
     /*
      * (non-Javadoc)
@@ -40,6 +40,6 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
         Intent serviceIntent = new Intent(context, ConnectionService.class);  // start ConnectionService
         serviceIntent.setAction(action);   // put in action and extras
         serviceIntent.putExtras(intent);
-    	context.startService(serviceIntent);  // start the connection service        
+        context.startService(serviceIntent);  // start the connection service
     }
 }

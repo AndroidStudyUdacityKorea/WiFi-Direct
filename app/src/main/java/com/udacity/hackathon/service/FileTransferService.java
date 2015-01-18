@@ -9,8 +9,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.udacity.hackathon.DeviceDetailFragment;
-import com.udacity.hackathon.WiFiDirectActivity;
+import com.udacity.hackathon.ui.DeviceDetailFragment;
+import com.udacity.hackathon.ui.WiFiDirectActivity;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

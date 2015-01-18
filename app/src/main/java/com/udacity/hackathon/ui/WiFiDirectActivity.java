@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.udacity.hackathon;
+package com.udacity.hackathon.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,8 +36,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.udacity.hackathon.DeviceListFragment.DeviceActionListener;
-import com.udacity.hackathon.ui.SettingsActivity;
+import com.udacity.hackathon.ui.DeviceListFragment.DeviceActionListener;
+import com.udacity.hackathon.R;
 
 /**
  * An activity that uses WiFi Direct APIs to discover and connect with available
@@ -48,7 +48,7 @@ import com.udacity.hackathon.ui.SettingsActivity;
  */
 public class WiFiDirectActivity extends Activity implements DeviceActionListener {
 
-    public static final String TAG = "PTP_Activity";
+    public static final String TAG = WiFiDirectActivity.class.getSimpleName();
 
     WiFiDirectApplication mApp = null;
 
@@ -62,7 +62,7 @@ public class WiFiDirectActivity extends Activity implements DeviceActionListener
 
         getActionBar().setTitle("");
         getActionBar().setIcon(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.background_img));
+        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_main));
 
         mApp = (WiFiDirectApplication) getApplication();
         mApp.mHomeActivity = this;

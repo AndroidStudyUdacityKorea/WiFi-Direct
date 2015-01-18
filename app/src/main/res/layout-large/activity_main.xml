@@ -12,14 +12,14 @@
 
         <fragment
             android:id="@+id/frag_list"
-            class="com.udacity.hackathon.DeviceListFragment"
+            class="com.udacity.hackathon.ui.DeviceListFragment"
             android:layout_width="@dimen/tablet_list_width"
-            android:layout_height="match_parent"></fragment>
+            android:layout_height="match_parent" />
 
         <fragment
             android:id="@+id/frag_detail"
-            class="com.udacity.hackathon.DeviceDetailFragment"
+            class="com.udacity.hackathon.ui.DeviceDetailFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></fragment>
+            android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>

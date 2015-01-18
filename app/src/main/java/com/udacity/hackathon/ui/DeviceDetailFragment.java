@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.udacity.hackathon;
+package com.udacity.hackathon.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.udacity.hackathon.R;
 import com.udacity.hackathon.service.FileTransferService;
 
 import java.io.File;
@@ -53,7 +54,7 @@ import java.net.Socket;
  */
 public class DeviceDetailFragment extends Fragment {
 
-    private static final String TAG = "PTP_Detail";
+    private static final String TAG = DeviceDetailFragment.class.getSimpleName();
 
     protected static final int CHOOSE_FILE_RESULT_CODE = 20;
     private View mContentView = null;
@@ -72,7 +73,6 @@ public class DeviceDetailFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        // onAttach -> onCreate -> onCreateView -> onActivityCreated -> onStart -> onResume
     }
 
     @Override
@@ -162,7 +162,6 @@ public class DeviceDetailFragment extends Fragment {
                 : getResources().getString(R.string.no)));
 
         // InetAddress from WifiP2pInfo struct.
-        view = (TextView) mContentView.findViewById(R.id.device_info);
         view.setText("Group Owner IP - " + info.groupOwnerAddress.getHostAddress());
 
         Log.d(TAG, "onConnectionInfoAvailable: " + info.groupOwnerAddress.getHostAddress());
@@ -188,10 +187,6 @@ public class DeviceDetailFragment extends Fragment {
     public void showDetails(WifiP2pDevice device) {
         this.device = device;
         this.getView().setVisibility(View.VISIBLE);
-        TextView view = (TextView) mContentView.findViewById(R.id.device_address);
-        view.setText(device.deviceAddress);
-        view = (TextView) mContentView.findViewById(R.id.device_info);
-        view.setText(device.toString());
     }
 
     /**
@@ -204,11 +199,7 @@ public class DeviceDetailFragment extends Fragment {
         }
 
         mContentView.findViewById(R.id.btn_connect).setVisibility(View.VISIBLE);
-        TextView view = (TextView) mContentView.findViewById(R.id.device_address);
-        view.setText(R.string.empty);
-        view = (TextView) mContentView.findViewById(R.id.device_info);
-        view.setText(R.string.empty);
-        view = (TextView) mContentView.findViewById(R.id.group_owner);
+        TextView view = (TextView) mContentView.findViewById(R.id.group_owner);
         view.setText(R.string.empty);
         view = (TextView) mContentView.findViewById(R.id.status_text);
         view.setText(R.string.empty);
