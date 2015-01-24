@@ -16,7 +16,7 @@
 
 package com.udacity.hackathon.ui;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,8 +26,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,22 +37,33 @@ import com.udacity.hackathon.util.PrefUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceListFragment extends ListFragment {  // callback of requestPeers
+public class DeviceListFragment extends Fragment {  // callback of requestPeers
 
     private static final String TAG = DeviceListFragment.class.getSimpleName();
 
     WiFiDirectApplication mApp = null;
 
-    private List<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
+    private ArrayList<WifiP2pDevice> peers = new ArrayList<WifiP2pDevice>();
     ProgressDialog progressDialog = null;
     View mContentView = null;
     private WifiP2pDevice device;
 
+    private ExpandableListView mListView;
+
+    private BaseExpandableAdapter mListAdpater;
+
+
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        this.setListAdapter(new WiFiPeerListAdapter(getActivity(), R.layout.peer_devices_row, peers));
         mApp = (WiFiDirectApplication) getActivity().getApplication();
+
+        mListAdpater = new BaseExpandableAdapter(getActivity(), peers);
+        mListView = (ExpandableListView) getView().findViewById(R.id.deviceList);
+        mListView.setAdapter(mListAdpater);
+
+
         onPeersAvailable(mApp.mPeers);
     }
 
@@ -69,57 +80,6 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         return device;
     }
 
-    /**
-     * Initiate a connection with the peer.
-     */
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        WifiP2pDevice device = (WifiP2pDevice) getListAdapter().getItem(position);
-        ((DeviceActionListener) getActivity()).showDetails(device);
-    }
-
-    /**
-     * Array adapter for ListFragment that maintains WifiP2pDevice list.
-     */
-    private class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
-
-        private List<WifiP2pDevice> items;
-
-        /**
-         * @param context
-         * @param textViewResourceId
-         * @param objects
-         */
-        public WiFiPeerListAdapter(Context context, int textViewResourceId,
-                                   List<WifiP2pDevice> objects) {
-            super(context, textViewResourceId, objects);
-            items = objects;
-
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.peer_devices_row, null);
-            }
-            WifiP2pDevice device = items.get(position);
-            if (device != null) {
-                TextView top = (TextView) v.findViewById(R.id.device_name);
-                TextView bottom = (TextView) v.findViewById(R.id.device_details);
-                if (top != null) {
-                    top.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
-                }
-                if (bottom != null) {
-                    bottom.setText(ConnectionService.getDeviceStatus(device.status));
-                }
-                WiFiDirectApplication.PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
-            }
-            return v;
-        }
-    }
 
     /**
      * Update UI for this device.
@@ -151,7 +111,8 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         }
         peers.clear();
         peers.addAll(peerList);
-        ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
+
+        mListAdpater.notifyDataSetChanged();
         if (peers.size() == 0) {
             WiFiDirectApplication.PTPLog.d(WiFiDirectActivity.TAG, "onPeersAvailable : No devices found");
             return;
@@ -166,7 +127,7 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
                     progressDialog.dismiss();
                 }
                 peers.clear();
-                ((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
+                mListAdpater.notifyDataSetChanged();
                 Toast.makeText(getActivity(), "연결이 끊겼습니다. 다시 시도해 주세요.", Toast.LENGTH_LONG).show();
             }
         });
@@ -195,6 +156,118 @@ public class DeviceListFragment extends ListFragment {  // callback of requestPe
         void connect(WifiP2pConfig config);
 
         void disconnect();
+    }
+
+
+    /**
+     * 어댑터
+     */
+    public class BaseExpandableAdapter extends BaseExpandableListAdapter {
+
+        private ArrayList<WifiP2pDevice> groupList = null;
+        private ArrayList<ArrayList<String>> childList = null;
+        private LayoutInflater inflater = null;
+
+        public BaseExpandableAdapter(Context c, ArrayList<WifiP2pDevice> groupList){
+            super();
+            this.inflater = LayoutInflater.from(c);
+            this.groupList = groupList;
+            //this.childList = childList;
+        }
+
+
+
+        // 그룹 포지션을 반환한다.
+        @Override
+        public String getGroup(int groupPosition) {
+            return groupList.get(groupPosition).deviceName;
+        }
+
+        // 그룹 사이즈를 반환한다.
+        @Override
+        public int getGroupCount() {
+            return groupList.size();
+        }
+
+        // 그룹 ID를 반환한다.
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        // 그룹뷰 각각의 ROW
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded,
+                                 View convertView, ViewGroup parent) {
+
+            View v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.peer_devices_row, null);
+            }
+
+            WifiP2pDevice device = groupList.get(groupPosition);
+            if (device != null) {
+                TextView top = (TextView) v.findViewById(R.id.device_name);
+                TextView bottom = (TextView) v.findViewById(R.id.device_details);
+                if (top != null) {
+                    top.setText(PrefUtils.getString(getActivity().getApplicationContext(), "name"));
+                }
+                if (bottom != null) {
+                    bottom.setText(ConnectionService.getDeviceStatus(device.status));
+                }
+                WiFiDirectApplication.PTPLog.d(TAG, "WiFiPeerListAdapter : getView : " + device.deviceName);
+            }
+            return v;
+        }
+
+        // 차일드뷰를 반환한다.
+        @Override
+        public String getChild(int groupPosition, int childPosition) {
+            //return childList.get(groupPosition).get(childPosition);
+            return null;
+        }
+
+        // 차일드뷰 사이즈를 반환한다.
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            //return childList.get(groupPosition).size();
+            return 2;
+        }
+
+        // 차일드뷰 ID를 반환한다.
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        // 차일드뷰 각각의 ROW
+        @Override
+        public View getChildView(int groupPosition, int childPosition,
+                                 boolean isLastChild, View convertView, ViewGroup parent) {
+
+            View v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(R.layout.peer_devices_row, null);
+            }
+
+            TextView top = (TextView) v.findViewById(R.id.device_name);
+            TextView bottom = (TextView) v.findViewById(R.id.device_details);
+
+            top.setText("test title : " + groupPosition + "-" + childPosition);
+            bottom.setText("test bottom");
+
+
+            return v;
+        }
+
+        @Override
+        public boolean hasStableIds() { return true; }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) { return true; }
+
     }
 
 }
