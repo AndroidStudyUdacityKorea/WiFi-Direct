@@ -79,6 +79,8 @@
     </LinearLayout>
 
     <!-- Available peers -->
+
+    <!--
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
@@ -86,6 +88,13 @@
         android:layout_weight="1"
         android:drawSelectorOnTop="false"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+        -->
+
+    <ExpandableListView
+        android:id="@+id/deviceList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 
     <TextView
         android:id="@id/android:empty"
