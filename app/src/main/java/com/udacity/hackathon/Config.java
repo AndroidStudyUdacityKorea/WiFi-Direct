@@ -22,7 +22,7 @@ public final class Config {
     public static final String MSG_SENDER = "sender";
     public static final String MSG_TIME = "time";//hello
     public static final String MSG_CHANGGI = "changgi";
-
+//koreakoreakorea
     public static final String MSG_CONTENT = "msg";
 }
 // dongeun test
