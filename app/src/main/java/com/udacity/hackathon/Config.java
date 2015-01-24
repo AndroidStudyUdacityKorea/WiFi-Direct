@@ -25,3 +25,4 @@ public final class Config {
 
     public static final String MSG_CONTENT = "msg";
 }
+// dongeun test
