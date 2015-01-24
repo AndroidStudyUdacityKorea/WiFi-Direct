@@ -20,6 +20,8 @@ public final class Config {
 
     public static final int MSG_SIZE = 50;    // the lastest 50 messages
     public static final String MSG_SENDER = "sender";
-    public static final String MSG_TIME = "time";
+    public static final String MSG_TIME = "time";//hello
+    public static final String MSG_CHANGGI = "changgi";
+
     public static final String MSG_CONTENT = "msg";
 }
